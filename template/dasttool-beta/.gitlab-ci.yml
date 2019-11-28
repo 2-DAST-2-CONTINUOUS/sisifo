@@ -1,0 +1,23 @@
+include:
+  - project: 2-dast-2-continuos/containers-template
+    file: main.yml
+    ref: master
+
+stages:
+  - build
+    
+build_tool:
+  extends:
+    - .build_image_kaniko
+  variables:
+    TPL_REGISTRY_NAME: "${CI_REGISTRY}"
+    TPL_REGISTRY_USER: "${CI_REGISTRY_USER}"
+    TPL_REGISTRY_PASS: "${CI_REGISTRY_PASSWORD}"
+    TPL_CONTEXT: "${CI_PROJECT_DIR}"
+    TPL_DOCKERFILE: "${CI_PROJECT_DIR}/Dockerfile"
+    TPL_CONTAINER_NAME: "${CI_PROJECT_PATH}"
+    TPL_TAG: "2.0.0"
+  stage: build
+  only: 
+    - master
+  
