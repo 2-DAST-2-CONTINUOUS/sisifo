@@ -1,0 +1,42 @@
+stages:
+  - novulnapp
+  - dast_zap
+  
+scan_vulnapp:
+  image:
+    name: registry.gitlab.com/2-dast-2-continuos/dasttool-alpa:2.0.0
+    entrypoint: [""]
+  script:
+    - echo "hola"
+    #- npm install -g gulp
+    #- npm install
+    #- gulp
+  artifacts:
+    name: myReport
+    when: on_failure
+    paths:
+      - data-output.json
+  tags:
+    - docker
+    - test
+    - dast
+  stage: novulnapp
+  
+run_dast_zap:
+  image:
+    name: registry.gitlab.com/gitlab-org/security-products/zaproxy:latest
+    entrypoint: [""]
+  script:
+    - zap-full-scan.py 
+      -t http://70.37.59.239/bWAPP/sqli_1.php 
+      --auth-url http://70.37.59.239/bWAPP/login.php 
+      --auth-username bee 
+      --auth-password bug 
+      --auth-username-field login 
+      --auth-password-field password 
+      --auth-submit-field form
+  tags:
+    - docker
+    - test
+    - dast
+  stage: dast_zap
