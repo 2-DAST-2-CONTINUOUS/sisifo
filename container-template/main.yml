@@ -1,0 +1,27 @@
+.build_image_kaniko:
+  image: 
+    name: gcr.io/kaniko-project/executor:debug-v0.9.0
+    entrypoint: [""]
+  variables:
+    TPL_REGISTRY_NAME: ""
+    TPL_REGISTRY_USER: ""
+    TPL_REGISTRY_PASS: ""
+    TPL_CONTEXT: ""
+    TPL_DOCKERFILE: ""
+    TPL_CONTAINER_NAME: ""
+    TPL_TAG: ""
+  script:
+    - echo "{
+        \"auths\":{
+          \"${TPL_REGISTRY_NAME}\":{
+            \"username\":\"${TPL_REGISTRY_USER}\",
+            \"password\":\"${TPL_REGISTRY_PASS}\"
+          }
+        }
+      }" > "/kaniko/.docker/config.json"
+    - /kaniko/executor 
+      --verbosity error 
+      --context ${TPL_CONTEXT} 
+      --dockerfile ${TPL_DOCKERFILE}
+      --destination ${TPL_REGISTRY_NAME}/${TPL_CONTAINER_NAME}:${TPL_TAG}
+
