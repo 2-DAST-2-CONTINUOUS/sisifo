@@ -6,7 +6,7 @@
 	<groupId>com.dast.continuous</groupId>
 	<artifactId>calculator</artifactId>
 	<packaging>jar</packaging>
-	<name>calculator</name>
+	<name>evaluator</name>
 	<version>0.0.1</version>
 	
 	<build>
@@ -38,7 +38,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.dast.continuous.calculator.Application</mainClass>
+							<mainClass>com.dast.continuous.evaluator.Application</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -58,7 +58,7 @@
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.dast.continuous.calculator.Application</mainClass>
+									<mainClass>com.dast.continuous.evaluator.Application</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -76,6 +76,11 @@
 	</properties>
 
 	<dependencies>
-				
+		<!-- Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.1</version>
+		</dependency>
 	</dependencies>
 </project>
