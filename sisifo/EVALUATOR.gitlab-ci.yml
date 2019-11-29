@@ -1,0 +1,8 @@
+.evaluator_dast:
+  image: 
+    name: registry.gitlab.com/2-dast-2-continuos/sisifo-evaluator:2.0.0
+    entrypoint: [""]
+  variables:
+    EVALUATOR_CONFIG: ""
+  script:
+    - cat gl-dast-report.json

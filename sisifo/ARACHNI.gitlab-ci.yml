@@ -1,0 +1,33 @@
+.analyze_arachni:
+  image: 
+    name: registry.gitlab.com/2-dast-2-continuos/dasttool-beta:2.0.0
+    entrypoint: [""]
+  variables:
+    AR_URL: ""
+    AR_CHECKS: ""
+    AR_LOGIN_URL: ""
+    AR_LOGIN_PARAMS: ""
+    AR_CHECK_LOGIN_SUCCESS: ""
+    AR_LOGOUT_PATTERN: ""
+  script:
+    - |
+      function arachni_run() {
+        if [ -n "$AR_CHECKS" ]; then
+          /arachni/bin/arachni $AR_URL --checks=$AR_CHECKS --report-save=arachni.afr
+        else 
+          /arachni/bin/arachni $AR_URL --report-save=arachni.afr
+        fi
+      }
+    - |
+      if [ -n "$AR_LOGIN_URL" ]; then
+        arachni_run \
+         --plugin=autologin:url=$AR_LOGIN_URL,parameters="$AR_LOGIN_PARAMS",check="$AR_CHECK_LOGIN_SUCCESS" \
+         --scope-exclude-pattern=$AR_LOGOUT_PATTERN
+      else
+        arachni_run
+      fi
+    - /arachni/bin/arachni_reporter arachni.afr --reporter=json:outfile=arachni_result.json
+  artifacts:
+    name: arachniReport
+    paths:
+      - arachni_result.json
