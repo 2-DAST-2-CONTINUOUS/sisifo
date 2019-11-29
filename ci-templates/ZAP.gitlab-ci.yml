@@ -1,0 +1,36 @@
+stages:
+  - zap
+
+analyze_zap:
+  stage: dast
+  image: docker:stable
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:stable-dind
+  script:
+    - export ZAP_VERSION=${SP_VERSION:-$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')}
+    - |
+      function dast_run() {
+        docker run \
+        -v $(pwd):/zap/wrk/:rw \
+        -i registry.gitlab.com/gitlab-org/security-products/dast:$ZAP_VERSION \
+        /analyze -t $ZAP_WEBSITE \
+        "$@"
+      }
+    - |
+      if [ -n "$ZAP_AUTH_URL" ]
+      then
+        dast_run \
+          --auth-url $ZAP_AUTH_URL \
+          --auth-username $ZAP_USERNAME \
+          --auth-password $ZAP_PASSWORD \
+          --auth-username-field $ZAP_USERNAME_FIELD \
+          --auth-password-field $ZAP_PASSWORD_FIELD \
+          --auth-exclude-urls $ZAP_AUTH_EXCLUDE_URLS
+      else
+        dast_run
+      fi
+  artifacts:
+    reports:
+      dast: gl-dast-report.json
