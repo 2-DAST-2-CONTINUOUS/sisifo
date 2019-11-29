@@ -1,47 +1,30 @@
-variables:
-  IMAGE_APP: registry.gitlab.com/2-dast-2-continuos/dasttool-alpa:2.0.0
+include:
+  - project: 2-dast-2-continuos/templates
+    file: ZAP.gitlab-ci.yml
+    ref: master
+  - project: 2-dast-2-continuos/templates
+    file: ARACHNI.gitlab-ci.yml
+    ref: master
 
 include:
   - project: 2-dast-2-continuos/templates
     file: ZAP.gitlab-ci.yml
     ref: master
 
-stages:
-  - novulnapp
-  - dast_zap
-  - zap_analysis
-  
-run_novuln_app:
-  image:
-    name: ${IMAGE_APP}
-    entrypoint: [""]
-  services:
-    - name: ${IMAGE_APP}
-      alias: ubuntu-app
-  script:
-    - npm install -g gulp
-    - npm install
-    - gulp build
-  artifacts:
-    name: dist
-    when: on_success
-    paths:
-      - dist
-
-  tags:
-    - docker
-    - test
-    - dast
-  stage: novulnapp
-  only:
-    - master
-
 build_image:
   extends:
     - .analyze_zap
   variables:
-    ZAP_WEBSITE: http://70.37.59.239/bWAPP/sqli_1.php
+    ZAP_WEBSITE: http://23.102.130.177/index.html#!/
   stage: zap_analysis
   only: 
     - test-zap
     - master
+    
+arachni:
+  extends:
+    - .analyze_arachni
+  stage:
+    arachni_analysis
+  variables:
+    AR_URL: "http://23.102.130.177/index.html#!/"
