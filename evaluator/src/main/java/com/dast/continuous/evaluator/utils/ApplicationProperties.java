@@ -1,4 +1,4 @@
-package com.dast.continuous.evaluator;
+package com.dast.continuous.evaluator.utils;
 
 import java.io.IOException;
 import java.util.Properties;

@@ -1,0 +1,868 @@
+{
+    "@version": "2.8.0",
+    "@generated": "Thu, 28 Nov 2019 17:03:14",
+    "site": [
+        {
+            "@name": "http://testphp.vulnweb.com",
+            "@host": "testphp.vulnweb.com",
+            "@port": "80",
+            "@ssl": "false",
+            "alerts": [
+                {
+                    "pluginid": "10037",
+                    "alert": "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
+                    "name": "Server Leaks Information via \"X-Powered-By\" HTTP Response Header Field(s)",
+                    "riskcode": "1",
+                    "confidence": "2",
+                    "riskdesc": "Low (Medium)",
+                    "desc": "<p>The web/application server is leaking information via one or more \"X-Powered-By\" HTTP response headers. Access to such information may facilitate attackers identifying other frameworks/components your web application is reliant upon and the vulnerabilities such components may be subject to.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=3",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-2/",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/RateProduct-3.html",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/search.php?test=query",
+                            "method": "POST",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/4.jpg",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/4.jpg&size=160",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=2",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/?pp=12",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=5",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/3.jpg&size=160",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-3/",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/userinfo.php",
+                            "method": "POST",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=4",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/userinfo.php",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=3",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/categories.php",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/6.jpg",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/privacy.php",
+                            "method": "GET",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "POST",
+                            "evidence": "X-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2"
+                        }
+                    ],
+                    "count": "63",
+                    "solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to suppress \"X-Powered-By\" headers.<\/p>",
+                    "reference": "<p>http://blogs.msdn.com/b/varunm/archive/2013/04/23/remove-unwanted-http-response-headers.aspx<\/p><p>http://www.troyhunt.com/2012/02/shhh-dont-let-your-response-headers.html<\/p>",
+                    "cweid": "200",
+                    "wascid": "13",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "10202",
+                    "alert": "Absence of Anti-CSRF Tokens",
+                    "name": "Absence of Anti-CSRF Tokens",
+                    "riskcode": "1",
+                    "confidence": "2",
+                    "riskdesc": "Low (Medium)",
+                    "desc": "<p>No Anti-CSRF tokens were found in a HTML submission form.<\/p><p>A cross-site request forgery is an attack that involves forcing a victim to send an HTTP request to a target destination without their knowledge or intent in order to perform an action as the victim. The underlying cause is application functionality using predictable URL/form actions in a repeatable way. The nature of the attack is that CSRF exploits the trust that a web site has for a user. By contrast, cross-site scripting (XSS) exploits the trust that a user has for a web site. Like XSS, CSRF attacks are not necessarily cross-site, but they can be. Cross-site request forgery is also known as CSRF, XSRF, one-click attack, session riding, confused deputy, and sea surf.<\/p><p><\/p><p>CSRF attacks are effective in a number of situations, including:<\/p><p>    * The victim has an active session on the target site.<\/p><p>    * The victim is authenticated via HTTP auth on the target site.<\/p><p>    * The victim is on the same local network as the target site.<\/p><p><\/p><p>CSRF has primarily been used to perform an action against a target site using the victim's privileges, but recent techniques have been discovered to disclose information by gaining access to the response. The risk of information disclosure is dramatically increased when the target site is vulnerable to XSS, because XSS can be used as a platform for CSRF, allowing the attack to operate within the bounds of the same-origin policy.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/categories.php",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=5",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=4",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=4",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=5",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=2",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=6",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=7",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=3",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=1",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/login.php",
+                            "method": "GET",
+                            "evidence": "<form name=\"loginform\" method=\"post\" action=\"userinfo.php\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=3",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=6",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "GET",
+                            "evidence": "<form action=\"\" method=\"post\" name=\"faddentry\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=2",
+                            "method": "GET",
+                            "evidence": "<form name='f_addcart' method='POST' action='cart.php'>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=7",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "POST",
+                            "evidence": "<form action=\"\" method=\"post\" name=\"faddentry\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/artists.php",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=1",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/disclaimer.php",
+                            "method": "GET",
+                            "evidence": "<form action=\"search.php?test=query\" method=\"post\">"
+                        }
+                    ],
+                    "count": "41",
+                    "solution": "<p>Phase: Architecture and Design<\/p><p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.<\/p><p>For example, use anti-CSRF packages such as the OWASP CSRFGuard.<\/p><p><\/p><p>Phase: Implementation<\/p><p>Ensure that your application is free of cross-site scripting issues, because most CSRF defenses can be bypassed using attacker-controlled script.<\/p><p><\/p><p>Phase: Architecture and Design<\/p><p>Generate a unique nonce for each form, place the nonce into the form, and verify the nonce upon receipt of the form. Be sure that the nonce is not predictable (CWE-330).<\/p><p>Note that this can be bypassed using XSS.<\/p><p><\/p><p>Identify especially dangerous operations. When the user performs a dangerous operation, send a separate confirmation request to ensure that the user intended to perform that operation.<\/p><p>Note that this can be bypassed using XSS.<\/p><p><\/p><p>Use the ESAPI Session Management control.<\/p><p>This control includes a component for CSRF.<\/p><p><\/p><p>Do not use the GET method for any request that triggers a state change.<\/p><p><\/p><p>Phase: Implementation<\/p><p>Check the HTTP Referer header to see if the request originated from an expected page. This could break legitimate functionality, because users or proxies may have disabled sending the Referer for privacy reasons.<\/p>",
+                    "otherinfo": "<p>No known Anti-CSRF token [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret] was found in the following HTML form: [Form 1: \"searchFor\" \"goButton\" ].<\/p>",
+                    "reference": "<p>http://projects.webappsec.org/Cross-Site-Request-Forgery<\/p><p>http://cwe.mitre.org/data/definitions/352.html<\/p>",
+                    "cweid": "352",
+                    "wascid": "9",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "10021",
+                    "alert": "X-Content-Type-Options Header Missing",
+                    "name": "X-Content-Type-Options Header Missing",
+                    "riskcode": "1",
+                    "confidence": "2",
+                    "riskdesc": "Low (Medium)",
+                    "desc": "<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "POST",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=3",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/color-printer/3/",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=2",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/disclaimer.php",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/RateProduct-2.html",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=2",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/7.jpg&size=160",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=3",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=1",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "POST",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/login.php",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=./pictures/2.jpg&size=160",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=2",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=4",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/images/2.jpg",
+                            "method": "GET",
+                            "param": "X-Content-Type-Options"
+                        }
+                    ],
+                    "count": "68",
+                    "solution": "<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.<\/p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.<\/p>",
+                    "otherinfo": "<p>This issue still applies to error type pages (401, 403, 500, etc) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.<\/p><p>At \"High\" threshold this scanner will not alert on client or server error responses.<\/p>",
+                    "reference": "<p>http://msdn.microsoft.com/en-us/library/ie/gg622941%28v=vs.85%29.aspx<\/p><p>https://www.owasp.org/index.php/List_of_useful_HTTP_headers<\/p>",
+                    "cweid": "16",
+                    "wascid": "15",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "10020",
+                    "alert": "X-Frame-Options Header Not Set",
+                    "name": "X-Frame-Options Header Not Set",
+                    "riskcode": "2",
+                    "confidence": "2",
+                    "riskdesc": "Medium (Medium)",
+                    "desc": "<p>X-Frame-Options header is not included in the HTTP response to protect against 'ClickJacking' attacks.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-2/",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/search.php?test=query",
+                            "method": "POST",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=3",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=1",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/?pp=12",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/RateProduct-3.html",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=2",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-3/",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=2",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=5",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/color-printer/3/",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "POST",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/categories.php",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=3",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=4",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/disclaimer.php",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/artists.php",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/network-attached-storage-dlink/1/",
+                            "method": "GET",
+                            "param": "X-Frame-Options"
+                        }
+                    ],
+                    "count": "45",
+                    "solution": "<p>Most modern Web browsers support the X-Frame-Options HTTP header. Ensure it's set on all web pages returned by your site (if you expect the page to be framed only by pages on your server (e.g. it's part of a FRAMESET) then you'll want to use SAMEORIGIN, otherwise if you never expect the page to be framed, you should use DENY. ALLOW-FROM allows specific websites to frame the web page in supported web browsers).<\/p>",
+                    "reference": "<p>http://blogs.msdn.com/b/ieinternals/archive/2010/03/30/combating-clickjacking-with-x-frame-options.aspx<\/p>",
+                    "cweid": "16",
+                    "wascid": "15",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "40018",
+                    "alert": "SQL Injection",
+                    "name": "SQL Injection",
+                    "riskcode": "3",
+                    "confidence": "2",
+                    "riskdesc": "High (Medium)",
+                    "desc": "<p>SQL injection may be possible.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=8-2",
+                            "method": "GET",
+                            "param": "pic",
+                            "attack": "8-2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=4+AND+1%3D1+--+",
+                            "method": "GET",
+                            "param": "cat",
+                            "attack": "4 OR 1=1 -- "
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "POST",
+                            "param": "addcart",
+                            "attack": "8-2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/userinfo.php",
+                            "method": "POST",
+                            "param": "uname",
+                            "attack": "ZAP' OR '1'='1' -- "
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "uuname",
+                            "attack": "ZAP' OR '1'='1' -- "
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/userinfo.php",
+                            "method": "POST",
+                            "param": "pass",
+                            "attack": "ZAP' OR '1'='1' -- "
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/artists.php?artist=5-2",
+                            "method": "GET",
+                            "param": "artist",
+                            "attack": "5-2"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=3+AND+1%3D1+--+",
+                            "method": "GET",
+                            "param": "artist",
+                            "attack": "3 OR 1=1 -- "
+                        }
+                    ],
+                    "count": "8",
+                    "solution": "<p>Do not trust client side input, even if there is client side validation in place.  <\/p><p>In general, type check all data on the server side.<\/p><p>If the application uses JDBC, use PreparedStatement or CallableStatement, with parameters passed by '?'<\/p><p>If the application uses ASP, use ADO Command Objects with strong type checking and parameterized queries.<\/p><p>If database Stored Procedures can be used, use them.<\/p><p>Do *not* concatenate strings into queries in the stored procedure, or use 'exec', 'exec immediate', or equivalent functionality!<\/p><p>Do not create dynamic SQL queries using simple string concatenation.<\/p><p>Escape all data received from the client.<\/p><p>Apply a 'whitelist' of allowed characters, or a 'blacklist' of disallowed characters in user input.<\/p><p>Apply the principle of least privilege by using the least privileged database user possible.<\/p><p>In particular, avoid using the 'sa' or 'db-owner' database users. This does not eliminate SQL injection, but minimizes its impact.<\/p><p>Grant the minimum database access that is necessary for the application.<\/p>",
+                    "otherinfo": "<p>The original page results were successfully replicated using the expression [8-2] as the parameter value<\/p><p>The parameter value being modified was stripped from the HTML output for the purposes of the comparison<\/p>",
+                    "reference": "<p>https://www.owasp.org/index.php/Top_10_2010-A1<\/p><p>https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet<\/p>",
+                    "cweid": "89",
+                    "wascid": "19",
+                    "sourceid": "1"
+                },
+                {
+                    "pluginid": "10016",
+                    "alert": "Web Browser XSS Protection Not Enabled",
+                    "name": "Web Browser XSS Protection Not Enabled",
+                    "riskcode": "1",
+                    "confidence": "2",
+                    "riskdesc": "Low (Medium)",
+                    "desc": "<p>Web Browser XSS Protection is not enabled, or is disabled by the configuration of the 'X-XSS-Protection' HTTP response header on the web server<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=4",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/categories.php",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-2/",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=3",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=6",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/?pp=12",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=5",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/search.php?test=query",
+                            "method": "POST",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/BuyProduct-3/",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/sitemap.xml",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=3",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/params.php?p=valid&pp=12",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/cart.php",
+                            "method": "POST",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/AJAX/index.php",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/network-attached-storage-dlink/1/",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/product.php?pic=7",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=2",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/disclaimer.php",
+                            "method": "GET",
+                            "param": "X-XSS-Protection"
+                        }
+                    ],
+                    "count": "48",
+                    "solution": "<p>Ensure that the web browser's XSS filter is enabled, by setting the X-XSS-Protection HTTP response header to '1'.<\/p>",
+                    "otherinfo": "<p>The X-XSS-Protection HTTP response header allows the web server to enable or disable the web browser's XSS protection mechanism. The following values would attempt to enable it: <\/p><p>X-XSS-Protection: 1; mode=block<\/p><p>X-XSS-Protection: 1; report=http://www.example.com/xss<\/p><p>The following values would disable it:<\/p><p>X-XSS-Protection: 0<\/p><p>The X-XSS-Protection HTTP response header is currently supported on Internet Explorer, Chrome and Safari (WebKit).<\/p><p>Note that this alert is only raised if the response body could potentially contain an XSS payload (with a text-based content type, with a non-zero length).<\/p>",
+                    "reference": "<p>https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet<\/p><p>https://www.veracode.com/blog/2014/03/guidelines-for-setting-security-headers/<\/p>",
+                    "cweid": "933",
+                    "wascid": "14",
+                    "sourceid": "3"
+                },
+                {
+                    "pluginid": "40012",
+                    "alert": "Cross Site Scripting (Reflected)",
+                    "name": "Cross Site Scripting (Reflected)",
+                    "riskcode": "3",
+                    "confidence": "2",
+                    "riskdesc": "High (Medium)",
+                    "desc": "<p>Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied code into a user's browser instance. A browser instance can be a standard web browser client, or a browser object embedded in a software product such as the browser within WinAmp, an RSS reader, or an email client. The code itself is usually written in HTML/JavaScript, but may also extend to VBScript, ActiveX, Java, Flash, or any other browser-supported technology.<\/p><p>When an attacker gets a user's browser to execute his/her code, the code will run within the security context (or zone) of the hosting web site. With this level of privilege, the code has the ability to read, modify and transmit any sensitive data accessible by the browser. A Cross-site Scripted user could have his/her account hijacked (cookie theft), their browser redirected to another location, or possibly shown fraudulent content delivered by the web site they are visiting. Cross-site Scripting attacks essentially compromise the trust relationship between a user and the web site. Applications utilizing browser object instances which load content from the file system may execute code under the local machine zone allowing for system compromise.<\/p><p><\/p><p>There are three types of Cross-site Scripting attacks: non-persistent, persistent and DOM-based.<\/p><p>Non-persistent attacks and DOM-based attacks require a user to either visit a specially crafted link laced with malicious code, or visit a malicious web page containing a web form, which when posted to the vulnerable site, will mount the attack. Using a malicious form will oftentimes take place when the vulnerable resource only accepts HTTP POST requests. In such a case, the form can be submitted automatically, without the victim's knowledge (e.g. by using JavaScript). Upon clicking on the malicious link or submitting the malicious form, the XSS payload will get echoed back and will get interpreted by the user's browser and execute. Another technique to send almost arbitrary requests (GET and POST) is by using an embedded client, such as Adobe Flash.<\/p><p>Persistent attacks occur when the malicious code is submitted to a web site where it's stored for a period of time. Examples of an attacker's favorite targets often include message board posts, web mail messages, and web chat software. The unsuspecting user is not required to interact with any additional site/link (e.g. an attacker site or a malicious link sent via email), just simply view the web page containing the code.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "uaddress",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "POST",
+                            "param": "text",
+                            "attack": "<\/td><script>alert(1);<\/script><td>",
+                            "evidence": "<\/td><script>alert(1);<\/script><td>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/params.php?p=valid&pp=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E",
+                            "method": "GET",
+                            "param": "pp",
+                            "attack": "<script>alert(1);<\/script>",
+                            "evidence": "<script>alert(1);<\/script>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "urname",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/search.php?test=query",
+                            "method": "POST",
+                            "param": "searchFor",
+                            "attack": "<\/h2><script>alert(1);<\/script><h2>",
+                            "evidence": "<\/h2><script>alert(1);<\/script><h2>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/guestbook.php",
+                            "method": "POST",
+                            "param": "name",
+                            "attack": "<\/strong><script>alert(1);<\/script><strong>",
+                            "evidence": "<\/strong><script>alert(1);<\/script><strong>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/params.php?p=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E&pp=12",
+                            "method": "GET",
+                            "param": "p",
+                            "attack": "<script>alert(1);<\/script>",
+                            "evidence": "<script>alert(1);<\/script>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?cat=%3C%2Fdiv%3E%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E%3Cdiv%3E",
+                            "method": "GET",
+                            "param": "cat",
+                            "attack": "<\/div><script>alert(1);<\/script><div>",
+                            "evidence": "<\/div><script>alert(1);<\/script><div>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "uphone",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "uuname",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/listproducts.php?artist=%3C%2Fdiv%3E%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E%3Cdiv%3E",
+                            "method": "GET",
+                            "param": "artist",
+                            "attack": "<\/div><script>alert(1);<\/script><div>",
+                            "evidence": "<\/div><script>alert(1);<\/script><div>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "uemail",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/hpp/?pp=javascript%3Aalert%281%29%3B",
+                            "method": "GET",
+                            "param": "pp",
+                            "attack": "javascript:alert(1);",
+                            "evidence": "javascript:alert(1);"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/secured/newuser.php",
+                            "method": "POST",
+                            "param": "ucc",
+                            "attack": "<\/li><script>alert(1);<\/script><li>",
+                            "evidence": "<\/li><script>alert(1);<\/script><li>"
+                        }
+                    ],
+                    "count": "14",
+                    "solution": "<p>Phase: Architecture and Design<\/p><p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.<\/p><p>Examples of libraries and frameworks that make it easier to generate properly encoded output include Microsoft's Anti-XSS library, the OWASP ESAPI Encoding module, and Apache Wicket.<\/p><p><\/p><p>Phases: Implementation; Architecture and Design<\/p><p>Understand the context in which your data will be used and the encoding that will be expected. This is especially important when transmitting data between different components, or when generating outputs that can contain multiple encodings at the same time, such as web pages or multi-part mail messages. Study all expected communication protocols and data representations to determine the required encoding strategies.<\/p><p>For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.<\/p><p>Consult the XSS Prevention Cheat Sheet for more details on the types of encoding and escaping that are needed.<\/p><p><\/p><p>Phase: Architecture and Design<\/p><p>For any security checks that are performed on the client side, ensure that these checks are duplicated on the server side, in order to avoid CWE-602. Attackers can bypass the client-side checks by modifying values after the checks have been performed, or by changing the client to remove the client-side checks entirely. Then, these modified values would be submitted to the server.<\/p><p><\/p><p>If available, use structured mechanisms that automatically enforce the separation between data and code. These mechanisms may be able to provide the relevant quoting, encoding, and validation automatically, instead of relying on the developer to provide this capability at every point where output is generated.<\/p><p><\/p><p>Phase: Implementation<\/p><p>For every web page that is generated, use and specify a character encoding such as ISO-8859-1 or UTF-8. When an encoding is not specified, the web browser may choose a different encoding by guessing which encoding is actually being used by the web page. This can cause the web browser to treat certain sequences as special, opening up the client to subtle XSS attacks. See CWE-116 for more mitigations related to encoding/escaping.<\/p><p><\/p><p>To help mitigate XSS attacks against the user's session cookie, set the session cookie to be HttpOnly. In browsers that support the HttpOnly feature (such as more recent versions of Internet Explorer and Firefox), this attribute can prevent the user's session cookie from being accessible to malicious client-side scripts that use document.cookie. This is not a complete solution, since HttpOnly is not supported by all browsers. More importantly, XMLHTTPRequest and other powerful browser technologies provide read access to HTTP headers, including the Set-Cookie header in which the HttpOnly flag is set.<\/p><p><\/p><p>Assume all input is malicious. Use an \"accept known good\" input validation strategy, i.e., use a whitelist of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. Do not rely exclusively on looking for malicious or malformed inputs (i.e., do not rely on a blacklist). However, blacklists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright.<\/p><p><\/p><p>When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, \"boat\" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as \"red\" or \"blue.\"<\/p><p><\/p><p>Ensure that you perform input validation at well-defined interfaces within the application. This will help protect the application even if a component is reused or moved elsewhere.<\/p>",
+                    "reference": "<p>http://projects.webappsec.org/Cross-Site-Scripting<\/p><p>http://cwe.mitre.org/data/definitions/79.html<\/p>",
+                    "cweid": "79",
+                    "wascid": "8",
+                    "sourceid": "1"
+                },
+                {
+                    "pluginid": "40012",
+                    "alert": "Cross Site Scripting (Reflected)",
+                    "name": "Cross Site Scripting (Reflected)",
+                    "riskcode": "3",
+                    "confidence": "1",
+                    "riskdesc": "High (Low)",
+                    "desc": "<p>Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied code into a user's browser instance. A browser instance can be a standard web browser client, or a browser object embedded in a software product such as the browser within WinAmp, an RSS reader, or an email client. The code itself is usually written in HTML/JavaScript, but may also extend to VBScript, ActiveX, Java, Flash, or any other browser-supported technology.<\/p><p>When an attacker gets a user's browser to execute his/her code, the code will run within the security context (or zone) of the hosting web site. With this level of privilege, the code has the ability to read, modify and transmit any sensitive data accessible by the browser. A Cross-site Scripted user could have his/her account hijacked (cookie theft), their browser redirected to another location, or possibly shown fraudulent content delivered by the web site they are visiting. Cross-site Scripting attacks essentially compromise the trust relationship between a user and the web site. Applications utilizing browser object instances which load content from the file system may execute code under the local machine zone allowing for system compromise.<\/p><p><\/p><p>There are three types of Cross-site Scripting attacks: non-persistent, persistent and DOM-based.<\/p><p>Non-persistent attacks and DOM-based attacks require a user to either visit a specially crafted link laced with malicious code, or visit a malicious web page containing a web form, which when posted to the vulnerable site, will mount the attack. Using a malicious form will oftentimes take place when the vulnerable resource only accepts HTTP POST requests. In such a case, the form can be submitted automatically, without the victim's knowledge (e.g. by using JavaScript). Upon clicking on the malicious link or submitting the malicious form, the XSS payload will get echoed back and will get interpreted by the user's browser and execute. Another technique to send almost arbitrary requests (GET and POST) is by using an embedded client, such as Adobe Flash.<\/p><p>Persistent attacks occur when the malicious code is submitted to a web site where it's stored for a period of time. Examples of an attacker's favorite targets often include message board posts, web mail messages, and web chat software. The unsuspecting user is not required to interact with any additional site/link (e.g. an attacker site or a malicious link sent via email), just simply view the web page containing the code.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E",
+                            "method": "GET",
+                            "param": "file",
+                            "attack": "<script>alert(1);<\/script>",
+                            "evidence": "<script>alert(1);<\/script>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=%3Cscript%3Ealert%281%29%3B%3C%2Fscript%3E&size=160",
+                            "method": "GET",
+                            "param": "file",
+                            "attack": "<script>alert(1);<\/script>",
+                            "evidence": "<script>alert(1);<\/script>"
+                        }
+                    ],
+                    "count": "2",
+                    "solution": "<p>Phase: Architecture and Design<\/p><p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid.<\/p><p>Examples of libraries and frameworks that make it easier to generate properly encoded output include Microsoft's Anti-XSS library, the OWASP ESAPI Encoding module, and Apache Wicket.<\/p><p><\/p><p>Phases: Implementation; Architecture and Design<\/p><p>Understand the context in which your data will be used and the encoding that will be expected. This is especially important when transmitting data between different components, or when generating outputs that can contain multiple encodings at the same time, such as web pages or multi-part mail messages. Study all expected communication protocols and data representations to determine the required encoding strategies.<\/p><p>For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.<\/p><p>Consult the XSS Prevention Cheat Sheet for more details on the types of encoding and escaping that are needed.<\/p><p><\/p><p>Phase: Architecture and Design<\/p><p>For any security checks that are performed on the client side, ensure that these checks are duplicated on the server side, in order to avoid CWE-602. Attackers can bypass the client-side checks by modifying values after the checks have been performed, or by changing the client to remove the client-side checks entirely. Then, these modified values would be submitted to the server.<\/p><p><\/p><p>If available, use structured mechanisms that automatically enforce the separation between data and code. These mechanisms may be able to provide the relevant quoting, encoding, and validation automatically, instead of relying on the developer to provide this capability at every point where output is generated.<\/p><p><\/p><p>Phase: Implementation<\/p><p>For every web page that is generated, use and specify a character encoding such as ISO-8859-1 or UTF-8. When an encoding is not specified, the web browser may choose a different encoding by guessing which encoding is actually being used by the web page. This can cause the web browser to treat certain sequences as special, opening up the client to subtle XSS attacks. See CWE-116 for more mitigations related to encoding/escaping.<\/p><p><\/p><p>To help mitigate XSS attacks against the user's session cookie, set the session cookie to be HttpOnly. In browsers that support the HttpOnly feature (such as more recent versions of Internet Explorer and Firefox), this attribute can prevent the user's session cookie from being accessible to malicious client-side scripts that use document.cookie. This is not a complete solution, since HttpOnly is not supported by all browsers. More importantly, XMLHTTPRequest and other powerful browser technologies provide read access to HTTP headers, including the Set-Cookie header in which the HttpOnly flag is set.<\/p><p><\/p><p>Assume all input is malicious. Use an \"accept known good\" input validation strategy, i.e., use a whitelist of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. Do not rely exclusively on looking for malicious or malformed inputs (i.e., do not rely on a blacklist). However, blacklists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright.<\/p><p><\/p><p>When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, \"boat\" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as \"red\" or \"blue.\"<\/p><p><\/p><p>Ensure that you perform input validation at well-defined interfaces within the application. This will help protect the application even if a component is reused or moved elsewhere.<\/p>",
+                    "otherinfo": "<p>Raised with LOW confidence as the Content-Type is not HTML<\/p>",
+                    "reference": "<p>http://projects.webappsec.org/Cross-Site-Scripting<\/p><p>http://cwe.mitre.org/data/definitions/79.html<\/p>",
+                    "cweid": "79",
+                    "wascid": "8",
+                    "sourceid": "1"
+                },
+                {
+                    "pluginid": "7",
+                    "alert": "Remote File Inclusion",
+                    "name": "Remote File Inclusion",
+                    "riskcode": "3",
+                    "confidence": "2",
+                    "riskdesc": "High (Medium)",
+                    "desc": "<p>Remote File Include (RFI) is an attack technique used to exploit \"dynamic file include\" mechanisms in web applications. When web applications take user input (URL, parameter value, etc.) and pass them into file include commands, the web application might be tricked into including remote files with malicious code.<\/p><p><\/p><p>Almost all web application frameworks support file inclusion. File inclusion is mainly used for packaging common code into separate files that are later referenced by main application modules. When a web application references an include file, the code in this file may be executed implicitly or explicitly by calling specific procedures. If the choice of module to load is based on elements from the HTTP request, the web application might be vulnerable to RFI.<\/p><p>An attacker can use RFI for:<\/p><p>    * Running malicious code on the server: any code in the included malicious files will be run by the server. If the file include is not executed using some wrapper, code in include files is executed in the context of the server user. This could lead to a complete system compromise.<\/p><p>    * Running malicious code on clients: the attacker's malicious code can manipulate the content of the response sent to the client. The attacker can embed malicious code in the response that will be run by the client (for example, Javascript to steal the client session cookies).<\/p><p><\/p><p>PHP is particularly vulnerable to RFI attacks due to the extensive use of \"file includes\" in PHP programming and due to default server configurations that increase susceptibility to an RFI attack.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=http%3A%2F%2Fwww.google.com&size=160",
+                            "method": "GET",
+                            "param": "file",
+                            "attack": "http://www.google.com",
+                            "evidence": "<title>Google<\/title>"
+                        },
+                        {
+                            "uri": "http://testphp.vulnweb.com/showimage.php?file=http%3A%2F%2Fwww.google.com%2F",
+                            "method": "GET",
+                            "param": "file",
+                            "attack": "http://www.google.com/",
+                            "evidence": "<title>Google<\/title>"
+                        }
+                    ],
+                    "count": "2",
+                    "solution": "<p>Phase: Architecture and Design<\/p><p>When the set of acceptable objects, such as filenames or URLs, is limited or known, create a mapping from a set of fixed input values (such as numeric IDs) to the actual filenames or URLs, and reject all other inputs.<\/p><p>For example, ID 1 could map to \"inbox.txt\" and ID 2 could map to \"profile.txt\". Features such as the ESAPI AccessReferenceMap provide this capability.<\/p><p><\/p><p>Phases: Architecture and Design; Operation<\/p><p>Run your code in a \"jail\" or similar sandbox environment that enforces strict boundaries between the process and the operating system. This may effectively restrict which files can be accessed in a particular directory or which commands can be executed by your software.<\/p><p>OS-level examples include the Unix chroot jail, AppArmor, and SELinux. In general, managed code may provide some protection. For example, java.io.FilePermission in the Java SecurityManager allows you to specify restrictions on file operations.<\/p><p>This may not be a feasible solution, and it only limits the impact to the operating system; the rest of your application may still be subject to compromise.<\/p><p>Be careful to avoid CWE-243 and other weaknesses related to jails.<\/p><p>For PHP, the interpreter offers restrictions such as open basedir or safe mode which can make it more difficult for an attacker to escape out of the application. Also consider Suhosin, a hardened PHP extension, which includes various options that disable some of the more dangerous PHP features.<\/p><p><\/p><p>Phase: Implementation<\/p><p>Assume all input is malicious. Use an \"accept known good\" input validation strategy, i.e., use a whitelist of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. Do not rely exclusively on looking for malicious or malformed inputs (i.e., do not rely on a blacklist). However, blacklists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright.<\/p><p>When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, \"boat\" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as \"red\" or \"blue.\"<\/p><p>For filenames, use stringent whitelists that limit the character set to be used. If feasible, only allow a single \".\" character in the filename to avoid weaknesses such as CWE-23, and exclude directory separators such as \"/\" to avoid CWE-36. Use a whitelist of allowable file extensions, which will help to avoid CWE-434.<\/p><p><\/p><p>Phases: Architecture and Design; Operation<\/p><p>Store library, include, and utility files outside of the web document root, if possible. Otherwise, store them in a separate directory and use the web server's access control capabilities to prevent attackers from directly requesting them. One common practice is to define a fixed constant in each calling program, then check for the existence of the constant in the library/include file; if the constant does not exist, then the file was directly requested, and it can exit immediately.<\/p><p>This significantly reduces the chance of an attacker being able to bypass any protection mechanisms that are in the base program but not in the include files. It will also reduce your attack surface.<\/p><p><\/p><p>Phases: Architecture and Design; Implementation<\/p><p>Understand all the potential areas where untrusted inputs can enter your software: parameters or arguments, cookies, anything read from the network, environment variables, reverse DNS lookups, query results, request headers, URL components, e-mail, files, databases, and any external systems that provide data to the application. Remember that such inputs may be obtained indirectly through API calls.<\/p><p>Many file inclusion problems occur because the programmer assumed that certain inputs could not be modified, especially for cookies and URL components.<\/p>",
+                    "reference": "<p>http://projects.webappsec.org/Remote-File-Inclusion<\/p><p>http://cwe.mitre.org/data/definitions/98.html<\/p>",
+                    "cweid": "98",
+                    "wascid": "5",
+                    "sourceid": "1"
+                },
+                {
+                    "pluginid": "10027",
+                    "alert": "Information Disclosure - Suspicious Comments",
+                    "name": "Information Disclosure - Suspicious Comments",
+                    "riskcode": "0",
+                    "confidence": "2",
+                    "riskdesc": "Informational (Medium)",
+                    "desc": "<p>The response appears to contain suspicious comments which may help an attacker.<\/p>",
+                    "instances": [
+                        {
+                            "uri": "http://testphp.vulnweb.com/AJAX/index.php",
+                            "method": "GET"
+                        }
+                    ],
+                    "count": "1",
+                    "solution": "<p>Remove all comments that return information that may help an attacker and fix any underlying problems they refer to.<\/p>",
+                    "otherinfo": "<p><script type=\"text/javascript\"><\/p><p>\tvar httpreq = null;\t<\/p><p><\/p><p>\tfunction SetContent(XML) {<\/p><p>\t\tvar items = XML.getElementsByTagName('items').item(0).getElementsByTagName('item');<\/p><p>\t\tvar inner = '<ul>';<\/p><p>\t\tfor(i=0; i<items.length; i++){<\/p><p>\t\t\tinner = inner + '<li><a href=\"javascript:getInfo(\\'' + items[i].attributes.item(0).value + '\\', \\'' + items[i].attributes.item(1).value + '\\')\">' + items[i].firstChild.nodeValue + '<\/a><\/li>';<\/p><p>\t\t}<\/p><p>\t\t<\/p><p>\t\tinner = inner + '<\/ul>'<\/p><p>\t\t<\/p><p>\t\tcd = document.getElementById('contentDiv');<\/p><p>\t\tcd.innerHTML = inner;<\/p><p>\t\t<\/p><p>\t\tid = document.getElementById('infoDiv');<\/p><p>\t\tid.innerHTML = '';<\/p><p>\t}<\/p><p><\/p><p>\tfunction httpCompleted() {<\/p><p>\t\tif (httpreq.readyState==4 && httpreq.status==200) {\t\t\t\t\t\t<\/p><p>\t\t\tSetContent(httpreq.responseXML);<\/p><p>\t\t\thttpreq = null;<\/p><p>\t\t}\t\t<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction SetInfo(XML) {<\/p><p>\t\tvar ii = XML.getElementsByTagName('iteminfo').item(0);<\/p><p>\t\tvar inner = '';<\/p><p>\t\t<\/p><p>\t\tinner = inner + '<p><strong>' + ii.getElementsByTagName('name').item(0).firstChild.nodeValue + '<\/strong><\/p>';<\/p><p>\t\t<\/p><p>\t\tpict  = ii.getElementsByTagName('picture');<\/p><p>\t\tif(pict.length>0){<\/p><p>\t\t\tinner = inner + '<img src=\"../showimage.php?file=' + pict.item(0).firstChild.nodeValue + '\"/>';<\/p><p>\t\t}<\/p><p>\t\t<\/p><p>\t\tdescs = ii.getElementsByTagName('description');<\/p><p>\t\tfor (i=0; i<descs.length; i++){<\/p><p>\t\t\tinner = inner + '<p>' + descs.item(i).firstChild.nodeValue + '<\/p>';<\/p><p>\t\t}<\/p><p>\t\t<\/p><p>\t\tid = document.getElementById('infoDiv');<\/p><p>\t\tid.innerHTML = inner;<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction httpInfoCompleted() {\t\t<\/p><p>\t\tif (httpreq.readyState==4 && httpreq.status==200) {<\/p><p>\t\t\tSetInfo(httpreq.responseXML);<\/p><p>\t\t\thttpreq = null;<\/p><p>\t\t}\t\t<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction loadSomething(what) {\t\t\t<\/p><p>\t\tgetHttpRequest();\t\t<\/p><p>\t\thttpreq.open('GET', what, true);\t\t<\/p><p>\t\thttpreq.send('');<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction getInfo(where, which) {<\/p><p>\t\tgetHttpRequest();\t\t<\/p><p>\t\thttpreq.onreadystatechange = httpInfoCompleted;<\/p><p>\t\tif (where=='infotitle'){<\/p><p>\t\t\thttpreq.open('POST', where+'.php', true);<\/p><p>\t\t\thttpreq.setRequestHeader('content-type', 'application/x-www-form-urlencoded');<\/p><p>\t\t\thttpreq.send('id='+which);<\/p><p>\t\t}<\/p><p>\t\telse {<\/p><p>\t\t\thttpreq.open('GET', where+'.php?id='+which, true);<\/p><p>\t\t\thttpreq.send('');<\/p><p>\t\t}<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction xmlCompleted () {<\/p><p>\t\tif (httpreq.readyState==4 && httpreq.status==200) {<\/p><p>\t\t\txd = document.getElementById('xmlDiv');<\/p><p>\t\t\txd.innerHTML = httpreq.responseText;<\/p><p>\t\t\thttpreq = null;<\/p><p>\t\t}\t<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction sendXML () {<\/p><p>\t\tgetHttpRequest();<\/p><p>\t\thttpreq.onreadystatechange = xmlCompleted;<\/p><p>\t\thttpreq.open('POST', 'showxml.php');<\/p><p>\t\thttpreq.setRequestHeader('content-type', 'text/xml');<\/p><p>\t\thttpreq.send('<xml><node name=\"nodename1\">nodetext1<\/node><node name=\"nodename2\">nodetext2<\/node><\/xml>');<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction getHttpRequest() {<\/p><p>\t\t// free the curent one<\/p><p>\t\tif (httpreq!=null){<\/p><p>\t\t\thttpreq.abort();<\/p><p>\t\t\thttpreq = null;<\/p><p>\t\t}\t\t<\/p><p><\/p><p>    if( window.XMLHttpRequest ) {<\/p><p>\t\t\thttpreq = new XMLHttpRequest();<\/p><p>\t\t\tif (httpreq.overrideMimeType) {<\/p><p>\t\t\t\t\thttpreq.overrideMimeType('text/xml');<\/p><p>\t\t\t}<\/p><p>    } else if(ActiveXObject) {<\/p><p>     \thttpreq = new ActiveXObject(\"Msxml2.XMLHTTP\");<\/p><p>\t\t}<\/p><p>\t\t\thttpreq.onreadystatechange = httpCompleted;<\/p><p>\t}<\/p><p>\t<\/p><p>\tfunction SetMyCookie() {<\/p><p>\t\tdocument.cookie = \"mycookie=3\";<\/p><p>\t\talert('A cookie was set by JavaScript.');<\/p><p>\t}<\/p><p><\/script><\/p><p><\/p>",
+                    "reference": "<p><\/p>",
+                    "cweid": "200",
+                    "wascid": "13",
+                    "sourceid": "3"
+                }
+            ]
+        }
+    ]
+}

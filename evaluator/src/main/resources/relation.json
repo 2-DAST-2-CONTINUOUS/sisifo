@@ -1,0 +1,27 @@
+{
+    "arachni": {
+        "SQL Injection": "SQL Injection",
+        "Blind SQL injection (timing attack)": "SQL Injection",
+        "Blind SQL Injection (differential analysis)": "SQL Injection",
+        "XSS": "XSS",
+        "XSS in script context": "XSS",
+        "XSS in HTML tag": "XSS",
+        "Remote File Inclusion": "Remote File Inclusion",
+        "Backup files": "Backup files",
+        "Backup directories": "Backup directories",
+        "Unencrypted password forms": "Unencrypted password forms",
+        "Unvalidated redirect": "Unvalidated redirect",
+        "Common directories": "Common directories",
+        "Common files": "Common files",
+        "Password field with auto-complete": "Password field with auto-complete",
+        "Common administration interfaces": "Common administration interfaces",
+        "Missing X-Frame-Options header": "Missing X-Frame-Options header",
+        "HTML objects": "HTML objects",
+        "Interesting responses": "Interesting responses",
+        "Code Injection": "Code Injection"
+    },
+
+    "zap": {
+        "40012": "Cross Site Scripting"
+    }
+}
