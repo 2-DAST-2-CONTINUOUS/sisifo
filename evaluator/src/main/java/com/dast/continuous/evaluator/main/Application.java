@@ -4,6 +4,7 @@ import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
 import com.dast.continuous.evaluator.service.SisifoRelationService;
+import com.dast.continuous.evaluator.service.ZapService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +14,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,22 +31,17 @@ public class Application {
 
         System.out.println("(^--^) Inicializando Evaluator (^--^)");
 
-        String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
         String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
 
         SisifoRelationService sisifoRelationService = new SisifoRelationService();
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
-        Map<String, List<Vulnerability>> result = null;
-        try {
-            ArachniService arachniService = new ArachniService();
-            result = arachniService.getVulnerabilities(resource, sisifoRelation.getArachni());
-        } catch (MalformedURLException e) {
-            System.out.println("Fallo en la URL");
-        }
+        Map<String, List<Vulnerability>> resultArachni = getVulnerabilitiesArachni(sisifoRelation);
+        Map<String, List<Vulnerability>> resultZap = getVulnerabilitiesZap(sisifoRelation);
+        
 
-        if (result != null) {
-            result.forEach((type, vulnList) -> {
+        if (resultArachni != null) {
+        	resultArachni.forEach((type, vulnList) -> {
 
                 //FinalReport report = new FinalReport();
                 //report.setName(k);
@@ -62,6 +59,32 @@ public class Application {
             });
         }
     	
+    }
+    
+    
+    private static Map<String, List<Vulnerability>> getVulnerabilitiesArachni(SisifoRelation sisifoRelation) throws IOException, URISyntaxException {
+    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
+    	Map<String, List<Vulnerability>> result = new HashMap<>();
+    	try {
+            ArachniService arachniService = new ArachniService();
+            result = arachniService.getVulnerabilities(resource, sisifoRelation.getArachni());
+        } catch (MalformedURLException e) {
+            System.out.println("Fallo en la URL");
+        }
+    	return result;
+    }
+    
+    
+    private static Map<String, List<Vulnerability>> getVulnerabilitiesZap(SisifoRelation sisifoRelation) throws IOException, URISyntaxException {
+    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.zap.filepath");
+    	Map<String, List<Vulnerability>> result = new HashMap<>();
+    	try {
+            ZapService zapService = new ZapService();
+            result = zapService.getVulnerabilities(resource, sisifoRelation.getZap());
+        } catch (MalformedURLException e) {
+            System.out.println("Fallo en la URL");
+        }
+    	return result;
     }
 
 }
