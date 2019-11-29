@@ -1,35 +1,28 @@
 #Imagen Base
-FROM centos:centos7
-
-#Datos de entrada
-ARG VERSION=2.0.0
-
-# Setting Maven Version that needs to be installed
-ARG MAVEN_VERSION=3.5.4
+FROM ubuntu:latest
 
 #Creamos usuarios para el docker
 USER root
 
-# Install required tools
-# which: otherwise 'mvn version' prints '/usr/share/maven/bin/mvn: line 93: which: command not found'
-RUN yum update -y && \
-  yum install -y which && \
-  yum clean all
+# Install required dependencies
+RUN apt update
+RUN apt-get install build-essential curl libcurl4 libcurl4-openssl-dev ruby ruby-dev wget -y
 
-# Maven
-RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /usr/share \
-  && mv /usr/share/apache-maven-$MAVEN_VERSION /usr/share/maven \
-  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
-
-ENV MAVEN_VERSION=${MAVEN_VERSION}
-ENV M2_HOME /usr/share/maven
-ENV maven.home $M2_HOME
-ENV M2 $M2_HOME/bin
-ENV PATH $M2:$PATH
-
-#Cambio ruta
 WORKDIR /tmp
 
-#Creamos un usuario sin home y cambiamos a este
-RUN useradd --no-create-home --shell /bin/sh nonroot
-USER nonroot
+#Download Arachni
+RUN wget "https://github.com/Arachni/arachni/releases/download/v1.5.1/arachni-1.5.1-0.5.12-linux-x86_64.tar.gz" -O /tmp/arachni.tar.gz
+RUN mkdir /arachni
+
+WORKDIR /arachni
+
+#Unpack Arachni
+RUN tar -xzf /tmp/arachni.tar.gz --strip-components=1 -C /arachni && rm /tmp/arachni.tar.gz
+
+WORKDIR /arachni/bin
+
+RUN chmod +x ./arachni && chmod +x ./arachni_reporter
+
+#Creation of nonroot user
+RUN useradd --no-create-home --shell /bin/sh arachni
+USER arachni
