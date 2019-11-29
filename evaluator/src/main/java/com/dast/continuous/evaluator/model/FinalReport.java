@@ -5,8 +5,10 @@ import java.util.List;
 public class FinalReport {
 
     private String name;
-    private List<String> origin;
+    private List<Endpoint> endpoints;
     private String severity;
+    private String description;
+    private Integer cwe;
 
     public String getName() {
         return name;
@@ -16,19 +18,35 @@ public class FinalReport {
         this.name = name;
     }
 
-    public List<String> getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(List<String> origin) {
-        this.origin = origin;
-    }
-
     public String getSeverity() {
         return severity;
     }
 
     public void setSeverity(String severity) {
         this.severity = severity;
+    }
+
+    public List<Endpoint> getEndpoints() {
+        return endpoints;
+    }
+
+    public void setEndpoints(List<Endpoint> endpoints) {
+        this.endpoints = endpoints;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getCwe() {
+        return cwe;
+    }
+
+    public void setCwe(Integer cwe) {
+        this.cwe = cwe;
     }
 }

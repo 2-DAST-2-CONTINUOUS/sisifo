@@ -1,7 +1,7 @@
 package com.dast.continuous.evaluator.service;
 
-import com.dast.continuous.evaluator.model.ArachniRaw;
-import com.dast.continuous.evaluator.model.Issue;
+import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
+import com.dast.continuous.evaluator.model.arachni.Issue;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,6 +29,7 @@ public class ArachniService {
             ObjectMapper objectMapper = new ObjectMapper();
             rawData = objectMapper.readValue(mapData, ArachniRaw.class);
         } catch (IOException e) {
+            //TODO quitar stackTrace
             System.out.println(e.getMessage());
             System.out.println("Error reading JSON");
         }
@@ -57,7 +58,7 @@ public class ArachniService {
             Vulnerability vulnerability = new Vulnerability();
 
             vulnerability.setShortName(issue.getCheck().getName());
-            vulnerability.setUrl(issue.getRequest().getUrl());
+            vulnerability.setEndpoint(issue.getRequest());
             vulnerability.setLongName(issue.getName());
             vulnerability.setSeverity(issue.getSeverity());
             vulnerability.setCwe(issue.getCwe());
@@ -88,17 +89,18 @@ public class ArachniService {
                 /**
                  * Aañadimos al listado de ya analizadas
                  */
-                urlUsed.add(new URL(vulnerability.getUrl()));
+                // la añadimos al listado de ya analizadas
+                urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
             } else {
 
                 /**
                  * Si existe se comprueba que no repiten en el mismo endpoint
                  */
-                URL url = new URL(vulnerability.getUrl());
+                URL url = new URL(vulnerability.getEndpoint().getUrl());
                 if(!urlUsed.contains(url)) {
                     vulnerabilityList = finalResult.get(arachniRelValue);
                     finalResult.put(arachniRelValue, vulnerabilityList);
-                    urlUsed.add(new URL(vulnerability.getUrl()));
+                    urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
                 }
             }
 

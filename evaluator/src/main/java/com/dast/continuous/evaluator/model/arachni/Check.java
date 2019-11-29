@@ -1,4 +1,4 @@
-package com.dast.continuous.evaluator.model;
+package com.dast.continuous.evaluator.model.arachni;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,8 +1,7 @@
-package com.dast.continuous.evaluator.model;
+package com.dast.continuous.evaluator.model.arachni;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.security.Timestamp;
 import java.util.List;
 import java.util.Map;
 
