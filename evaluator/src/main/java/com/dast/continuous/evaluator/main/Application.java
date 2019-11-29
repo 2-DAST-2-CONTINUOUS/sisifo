@@ -50,8 +50,9 @@ public class Application {
 
                 List<String> urlList = new ArrayList<>();
                 for (Vulnerability vuln : v) {
-                    System.out.println(vuln.getUrl());
-                    urlList.add(vuln.getUrl());
+                    System.out.println(vuln.getEndpoint().getUrl());
+                    System.out.println(vuln.getEndpoint().getMethod());
+                    urlList.add(vuln.getEndpoint().getUrl());
 
                 }
                 //report.setOrigin(urlList);

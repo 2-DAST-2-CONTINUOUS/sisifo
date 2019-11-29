@@ -1,5 +1,6 @@
-package com.dast.continuous.evaluator.model;
+package com.dast.continuous.evaluator.model.arachni;
 
+import com.dast.continuous.evaluator.model.Endpoint;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class Issue {
     private Integer cwe;
     private String severity;
     private Check check;
-    private RequestArachni request;
+    private Endpoint request;
 
     public String getName() {
         return name;
@@ -63,11 +64,11 @@ public class Issue {
         this.check = check;
     }
 
-    public RequestArachni getRequest() {
+    public Endpoint getRequest() {
         return request;
     }
 
-    public void setRequest(RequestArachni request) {
+    public void setRequest(Endpoint request) {
         this.request = request;
     }
 }
