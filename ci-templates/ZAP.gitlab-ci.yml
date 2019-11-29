@@ -1,8 +1,4 @@
-stages:
-  - zap
-
-analyze_zap:
-  stage: dast
+.analyze_zap:
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
@@ -32,5 +28,6 @@ analyze_zap:
         dast_run
       fi
   artifacts:
-    reports:
-      dast: gl-dast-report.json
+    name: zapResult
+    paths:
+      - gl-dast-report.json
