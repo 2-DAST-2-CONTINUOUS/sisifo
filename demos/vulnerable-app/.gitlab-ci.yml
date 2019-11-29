@@ -1,22 +1,33 @@
+variables:
+  IMAGE_APP: registry.gitlab.com/2-dast-2-continuos/dasttool-alpa:2.0.0
+
+include:
+  - project: 2-dast-2-continuos/templates
+    file: ZAP.gitlab-ci.yml
+    ref: master
+
 stages:
   - novulnapp
   - dast_zap
+  - zap_analysis
   
 run_novuln_app:
   image:
-    name: registry.gitlab.com/2-dast-2-continuos/dasttool-alpa:2.0.0
+    name: ${IMAGE_APP}
     entrypoint: [""]
   services:
-    - docker:app-run
+    - name: ${IMAGE_APP}
+      alias: ubuntu-app
   script:
     - npm install -g gulp
     - npm install
-    - gulp
+    - gulp build
   artifacts:
-    name: myReport
-    when: on_failure
+    name: dist
+    when: on_success
     paths:
-      - data-output.json
+      - dist
+
   tags:
     - docker
     - test
@@ -25,30 +36,12 @@ run_novuln_app:
   only:
     - master
 
-run_dast_zap:
-  image: docker:stable
+build_image:
+  extends:
+    - .analyze_zap
   variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  script:
-    - docker run 
-      -v $(pwd):/zap/wrk/:rw 
-      -i registry.gitlab.com/gitlab-org/security-products/dast:latest 
-      /analyze -t  http://70.37.59.239/bWAPP/sqli_1.php 
-      -r report.html
-      --auth-url http://70.37.59.239/bWAPP/login.php 
-      --auth-username bee 
-      --auth-password bug 
-      --auth-username-field login 
-      --auth-password-field password 
-      --auth-submit-field form 
-
-     
-  artifacts:
-    reports:
-      dast: gl-dast-report.json
-  stage: dast_zap
-  only:
+    ZAP_WEBSITE: http://70.37.59.239/bWAPP/sqli_1.php
+  stage: zap_analysis
+  only: 
     - test-zap
+    - master
