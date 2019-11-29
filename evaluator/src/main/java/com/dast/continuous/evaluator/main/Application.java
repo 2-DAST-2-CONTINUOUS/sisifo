@@ -27,7 +27,7 @@ public class Application {
 	
     public static void main( String[] args ) throws IOException, URISyntaxException {
 
-        System.out.println("(^--^) Iniciadando Evaluator (^--^)");
+        System.out.println("(^--^) Inicializando Evaluator (^--^)");
 
         String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
         String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
@@ -40,7 +40,7 @@ public class Application {
             ArachniService arachniService = new ArachniService();
             result = arachniService.getVulnerabilities(resource, sisifoRelation.getArachni());
         } catch (MalformedURLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Fallo en la URL");
         }
 
         if (result != null) {
