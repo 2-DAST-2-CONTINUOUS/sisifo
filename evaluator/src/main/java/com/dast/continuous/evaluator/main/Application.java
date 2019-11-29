@@ -3,6 +3,7 @@ package com.dast.continuous.evaluator.main;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
+import com.dast.continuous.evaluator.service.SisifoRelationService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,7 +32,8 @@ public class Application {
         String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
         String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
 
-        SisifoRelation sisifoRelation = getSisifoRelation(sisifoRelationStr);
+        SisifoRelationService sisifoRelationService = new SisifoRelationService();
+        SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
         Map<String, List<Vulnerability>> result = null;
         try {
@@ -51,7 +53,7 @@ public class Application {
 
                 List<String> urlList = new ArrayList<>();
                 for (Vulnerability vuln : vulnList) {
-                    System.out.println("URL: " + vuln.getUrl());
+                    System.out.println("URL" + vuln.getUrl());
                     urlList.add(vuln.getUrl());
 
                 }
@@ -60,28 +62,6 @@ public class Application {
             });
         }
     	
-    }
-
-    /**
-     * Recuperamos las relaciones parar ponderar las vulnerabilidades
-     * @param relationResource
-     * @return
-     */
-    private static SisifoRelation getSisifoRelation(String relationResource) throws URISyntaxException, IOException {
-
-        ///converting json to Map
-        byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(relationResource).toURI()));
-
-        SisifoRelation sisifoRelation = null;
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            sisifoRelation = objectMapper.readValue(mapData, SisifoRelation.class);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Error reading JSON");
-        }
-
-        return sisifoRelation;
     }
 
 }
