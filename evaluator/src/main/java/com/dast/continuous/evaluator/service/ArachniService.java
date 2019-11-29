@@ -1,8 +1,9 @@
 package com.dast.continuous.evaluator.service;
 
+import com.dast.continuous.evaluator.model.SisifoRelation;
+import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
 import com.dast.continuous.evaluator.model.arachni.Issue;
-import com.dast.continuous.evaluator.model.Vulnerability;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -108,4 +109,6 @@ public class ArachniService {
 
         return finalResult;
     }
+
+
 }
