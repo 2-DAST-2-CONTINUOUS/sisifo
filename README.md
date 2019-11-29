@@ -23,10 +23,11 @@ Sisifo is structured in different modules that make it flexible to configure and
     > [evaluator](https://github.com/2-DAST-2-CONTINUOUS/sisifo/tree/master/evaluator)
     
 ## Authors
-* **Jorge Gil Fernández** - [jorgeInno](https://github.com/PurpleBooth)
-* **Ismael Requena Andreu** - [Ismaibz](https://github.com/PurpleBooth)
-* **Víctor Alexander Parrales** - [Alexander-047](https://github.com/PurpleBooth)
-* **José Antonio Maldonado Jiménez** - [guajar](https://github.com/PurpleBooth)
+
+* **Jorge Gil Fernández** - [jorgeInno](https://github.com/jorgeInno)
+* **Ismael Requena Andreu** - [Ismaibz](https://github.com/Ismaibz)
+* **Víctor Alexander Parrales** - [Alexander-047](https://github.com/Alexander-047)
+* **José Antonio Maldonado Jiménez** - [guajar](https://github.com/guajar)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
