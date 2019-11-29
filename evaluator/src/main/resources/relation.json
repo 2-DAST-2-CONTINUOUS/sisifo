@@ -22,6 +22,14 @@
     },
 
     "zap": {
-        "40012": "Cross Site Scripting"
+        "7": "Remote File Inclusion",
+        "10016": "Web Browser XSS Protection Not Enabled",
+        "10020": "X-Frame-Options Header Not Set",
+        "10021": "X-Content-Type-Options Header Missing",
+        "10027": "Information Disclosure",
+        "10037": "Server Leaks Information",
+        "10202": "Absence of Anti-CSRF Tokens",
+        "40012": "Cross Site Scripting",
+        "40018": "SQL Injection"
     }
 }

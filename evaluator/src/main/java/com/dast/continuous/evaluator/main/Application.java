@@ -42,15 +42,16 @@ public class Application {
         }
 
         if (result != null) {
-            result.forEach((k, v) -> {
+            result.forEach((type, vulnList) -> {
+
                 //FinalReport report = new FinalReport();
                 //report.setName(k);
 
-                System.out.println("Tipo : " + k + " ---- URL : " + v);
+                System.out.println("Tipo : " + type);
 
                 List<String> urlList = new ArrayList<>();
-                for (Vulnerability vuln : v) {
-                    System.out.println(vuln.getUrl());
+                for (Vulnerability vuln : vulnList) {
+                    System.out.println("URL: " + vuln.getUrl());
                     urlList.add(vuln.getUrl());
 
                 }

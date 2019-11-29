@@ -85,7 +85,9 @@ public class ArachniService {
                     finalResult.put("Not Defined in Relation JSON", vulnerabilityList);
                 }
 
-                // la añadimos al listado de ya analizadas
+                /**
+                 * Aañadimos al listado de ya analizadas
+                 */
                 urlUsed.add(new URL(vulnerability.getUrl()));
             } else {
 
