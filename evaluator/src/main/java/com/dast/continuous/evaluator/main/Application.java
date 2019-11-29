@@ -3,6 +3,7 @@ package com.dast.continuous.evaluator.main;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
+import com.dast.continuous.evaluator.service.ZapService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,6 +38,13 @@ public class Application {
         try {
             ArachniService arachniService = new ArachniService();
             result = arachniService.getVulnerabilities(resource, sisifoRelation.getArachni());
+        } catch (MalformedURLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            ZapService zapService = new ZapService();
+            result = zapService.getVulnerabilities(resource, sisifoRelation.getZap(), result);
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
         }
