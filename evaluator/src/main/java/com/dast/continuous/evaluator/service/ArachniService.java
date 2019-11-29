@@ -2,9 +2,7 @@ package com.dast.continuous.evaluator.service;
 
 import com.dast.continuous.evaluator.model.ArachniRaw;
 import com.dast.continuous.evaluator.model.Issue;
-import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

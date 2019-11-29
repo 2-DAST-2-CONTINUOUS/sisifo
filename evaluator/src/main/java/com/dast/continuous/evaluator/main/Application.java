@@ -1,9 +1,9 @@
-package com.dast.continuous.evaluator;
+package com.dast.continuous.evaluator.main;
 
-import com.dast.continuous.evaluator.model.ArachniRaw;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
+import com.dast.continuous.evaluator.utils.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
