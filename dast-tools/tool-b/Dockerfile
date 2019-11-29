@@ -25,4 +25,7 @@ RUN chmod +x ./arachni && chmod +x ./arachni_reporter
 
 #Creation of nonroot user
 RUN useradd --no-create-home --shell /bin/sh arachni
+
+RUN chown -R arachni:arachni /arachni
+
 USER arachni
