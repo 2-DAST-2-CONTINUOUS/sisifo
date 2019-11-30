@@ -106,11 +106,14 @@ public class Application {
 		String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
         SisifoRelationService sisifoRelationService = new SisifoRelationService();
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
-
-        Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
         
-        getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
-        getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
+        Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
+        if (entryData.getArachniResultData() != null) {
+        	getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
+        }
+        if (entryData.getZapResultData() != null) {
+        	getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
+        }
 
         List<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>(groupVulnerabilities.values());
         
