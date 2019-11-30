@@ -1,13 +1,11 @@
 package com.dast.continuous.evaluator.service;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.dast.continuous.evaluator.model.Endpoint;
@@ -25,21 +23,17 @@ public class ArachniService {
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
 	 * 
-	 * @param resource
+	 * @param mapData archivo json con los datos obtenidos de la herramienta
 	 * @param arachniRelations mapa con la relación entre vulnerabilidades de arachni y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    public void getVulnerabilities(String resource, Map<String, String> arachniRelations, Map<String, Vulnerability> groupVulnerabilities)
+    public void getVulnerabilities(byte[] mapData, Map<String, String> arachniRelations, Map<String, Vulnerability> groupVulnerabilities)
             throws IOException {
 
         System.out.println("Obteniendo las vulnerabilidades de Arachni");
-    	InputStream in = ClassLoader.getSystemResourceAsStream(resource);
-    	
-        ///converting json to Map
-        byte[] mapData = IOUtils.toByteArray(in);
     	
         ArachniRaw rawData = new ArachniRaw();
         try {

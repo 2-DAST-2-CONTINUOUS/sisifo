@@ -1,7 +1,27 @@
 package com.dast.continuous.evaluator.main;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import com.dast.continuous.evaluator.model.EntryData;
-import com.dast.continuous.evaluator.model.FinalReport;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
@@ -9,20 +29,6 @@ import com.dast.continuous.evaluator.service.EvaluatorLogicService;
 import com.dast.continuous.evaluator.service.SisifoRelationService;
 import com.dast.continuous.evaluator.service.ZapService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
-import org.apache.commons.cli.*;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Inicializador de spring boot
@@ -103,9 +109,12 @@ public class Application {
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
         Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
-        
-        getVulnerabilitiesArachni(sisifoRelation, groupVulnerabilities);
-        getVulnerabilitiesZap(sisifoRelation, groupVulnerabilities);
+        if (entryData.getArachniResultData() != null) {
+        	getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
+        }
+        if (entryData.getZapResultData() != null) {
+        	getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
+        }
 
         List<Vulnerability> vulnerabilities = new ArrayList<>(groupVulnerabilities.values());
         
@@ -124,34 +133,48 @@ public class Application {
     	
     	EntryData entryData = new EntryData();
     	    	
-    	if (cmdLine.hasOption("vc")) {
-    		entryData.setNumVulnerabilityCritical(
-    				Integer.parseInt(cmdLine.getOptionValue("vc")));    	
+    	System.out.println("Datos de entrada");	
+    	
+    	if (cmdLine.hasOption("vc")) {    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vc"));    		
+    		entryData.setNumVulnerabilityCritical(numVuln != null ? numVuln : 1);
+    		System.out.println("Num criticas: "+entryData.getNumVulnerabilityCritical());	
     	}
     	
     	if (cmdLine.hasOption("vh")) {
-    		entryData.setNumVulnerabilityHigh(
-    				Integer.parseInt(cmdLine.getOptionValue("vh")));    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vh"));  
+    		entryData.setNumVulnerabilityHigh(numVuln != null ? numVuln : 1);
+    		System.out.println("Num altas: "+entryData.getNumVulnerabilityHigh()); 		
     	}
     	
     	if (cmdLine.hasOption("vm")) {
-    		entryData.setNumVulnerabilityMedium(
-    				Integer.parseInt(cmdLine.getOptionValue("vm")));     		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vm"));  
+    		entryData.setNumVulnerabilityMedium(numVuln != null ? numVuln : 5);
+    		System.out.println("Num medias: "+entryData.getNumVulnerabilityMedium());
     	}
     	
     	if (cmdLine.hasOption("vl")) {
-    		entryData.setNumVulnerabilityLow(
-    				Integer.parseInt(cmdLine.getOptionValue("vl")));    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vl"));  
+    		entryData.setNumVulnerabilityLow(numVuln != null ? numVuln : 10);
+    		System.out.println("Num bajas: "+entryData.getNumVulnerabilityLow());
     	}
     	
     	if (cmdLine.hasOption("fa")) {
-			String pathFileArachni = cmdLine.getOptionValue("fa");				    	
-			entryData.setArachniResultData(Files.readAllBytes(Paths.get(pathFileArachni)));			
+			String pathFileArachni = cmdLine.getOptionValue("fa");    		
+    		Path path = Paths.get(pathFileArachni);
+    		if(Files.exists(path)){
+        		System.out.println("Se va a procesar el archivo: "+pathFileArachni);
+    			entryData.setArachniResultData(Files.readAllBytes(path));
+    		}
     	}
     	
     	if (cmdLine.hasOption("fz")) {
     		String pathFileZap = cmdLine.getOptionValue("fz");
-    		entryData.setZapResultData(Files.readAllBytes(Paths.get(pathFileZap)));
+    		Path path = Paths.get(pathFileZap);
+    		if(Files.exists(path)){
+	    		System.out.println("Se va a procesar el archivo: "+pathFileZap);
+	    		entryData.setZapResultData(Files.readAllBytes(path));
+    		}
     	}
     	
     	return entryData;
@@ -163,19 +186,20 @@ public class Application {
 	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
-	 *
+	 * 
+	 * @param entryData datos de entrada de la aplicacion
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    private static void getVulnerabilitiesArachni(SisifoRelation sisifoRelation, 
+    private static void getVulnerabilitiesArachni(EntryData entryData, SisifoRelation sisifoRelation, 
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
-    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
+    	
     	try {
             ArachniService arachniService = new ArachniService();
-            arachniService.getVulnerabilities(resource, sisifoRelation.getArachni(), groupVulnerabilities);
+            arachniService.getVulnerabilities(entryData.getArachniResultData(), sisifoRelation.getArachni(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }
@@ -186,19 +210,24 @@ public class Application {
 	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
+<<<<<<< HEAD
 	 *
+=======
+	 * 
+	 * @param entryData datos de entrada de la aplicacion
+>>>>>>> 63b5ab008f6c0a2e711f62ea359868bc187cbf38
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    private static void getVulnerabilitiesZap(SisifoRelation sisifoRelation,
+    private static void getVulnerabilitiesZap(EntryData entryData, SisifoRelation sisifoRelation,
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
-    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.zap.filepath");
+    	
     	try {
             ZapService zapService = new ZapService();
-            zapService.getVulnerabilities(resource, sisifoRelation.getZap(), groupVulnerabilities);
+            zapService.getVulnerabilities(entryData.getZapResultData(), sisifoRelation.getZap(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }

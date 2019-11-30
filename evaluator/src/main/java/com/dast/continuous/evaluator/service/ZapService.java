@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,18 +25,17 @@ public class ZapService {
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
 	 * 
-	 * @param resource
+	 * @param mapData archivo json con los datos obtenidos de la herramienta
 	 * @param zapRelations mapa con la relación entre vulnerabilidades de zap y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    public void getVulnerabilities(String resource, Map<String, String> zapRelations, 
+    public void getVulnerabilities(byte[] mapData, Map<String, String> zapRelations, 
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
 
         System.out.println("Obteniendo las vulnerabilidades de Zap");
-        byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(resource).toURI()));
 
         ZapRaw rawData = new ZapRaw();
         try {
