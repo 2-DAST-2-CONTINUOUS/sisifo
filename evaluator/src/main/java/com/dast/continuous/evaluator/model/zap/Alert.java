@@ -1,5 +1,6 @@
 package com.dast.continuous.evaluator.model.zap;
 
+import com.dast.continuous.evaluator.model.Endpoint;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -12,7 +13,8 @@ public class Alert {
     private Integer riskcode;
     private Integer confidence;
     private String riskdesc;
-    private List<ZapInstance> instances;
+    private String cweid;
+    private List<Endpoint> instances;
 
     public Long getPluginid() {
         return pluginid;
@@ -54,11 +56,20 @@ public class Alert {
         this.riskdesc = riskdesc;
     }
 
-    public List<ZapInstance> getInstances() {
-        return instances;
-    }
+	public String getCweid() {
+		return cweid;
+	}
 
-    public void setInstances(List<ZapInstance> instances) {
-        this.instances = instances;
-    }
+	public void setCweid(String cweid) {
+		this.cweid = cweid;
+	}
+
+	public List<Endpoint> getInstances() {
+		return instances;
+	}
+
+	public void setInstances(List<Endpoint> instances) {
+		this.instances = instances;
+	}
+
 }

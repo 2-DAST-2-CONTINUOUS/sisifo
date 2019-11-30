@@ -1,5 +1,6 @@
 package com.dast.continuous.evaluator.service;
 
+import com.dast.continuous.evaluator.model.Endpoint;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
@@ -42,78 +43,74 @@ public class ZapService {
 
         List<Site> sites = rawData.getSite();
         
-        for(Site site : sites) {        	
-        	System.out.println("alert is: " + site.getAlerts().size());
-        }
-
-        Map<String, List<Vulnerability>> result = new HashMap<>();
-        return result;
-       // return reduceList(instances, zapRelations);
+       
+        return reduceList(sites, zapRelations);
     }
 
-    private static Map<String, List<Vulnerability>> reduceList(List<Issue> issues, Map<String, String> arachniRelations) throws MalformedURLException {
+    private static Map<String, List<Vulnerability>> reduceList(List<Site> sites, Map<String, String> zapRelations) throws MalformedURLException {
 
         Map<String,List<Vulnerability>> finalResult = new LinkedHashMap<>();
         List<Vulnerability> vulnerabilityList = null;
 
         // URL ya analizadas
         List<URL> urlUsed = new ArrayList<>();
-        List<String> relationKeys = new ArrayList<>(arachniRelations.keySet());
+        List<String> relationKeys = new ArrayList<>(zapRelations.keySet());
 
         /**
          * De las vulnerabilidades encontradas las mapeamos a objetos
          * y las agrupamos por tipo de vulnerabilidad y url
          */
-        for(Issue issue : issues) {
+        for(Site site : sites) {
+        	for (Alert alert: site.getAlerts()) {
+        		Vulnerability vulnerability = new Vulnerability();
+        		vulnerability.setShortName(alert.getName());
+        		vulnerability.setLongName(alert.getName());
+        		vulnerability.setSeverity(alert.getRiskdesc());
+        		vulnerability.setEndpoint(alert.getInstances());
+        		vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
+        	}
 
-            Vulnerability vulnerability = new Vulnerability();
 
-            vulnerability.setShortName(issue.getCheck().getName());
-            vulnerability.setEndpoint(issue.getRequest());
-            vulnerability.setLongName(issue.getName());
-            vulnerability.setSeverity(issue.getSeverity());
-            vulnerability.setCwe(issue.getCwe());
-
-            String key = vulnerability.getShortName();
+            //String key = vulnerability.getShortName();
 
             /**
              * Comparamos con las relaciones de JSON
              */
-            String arachniRelValue = null;
-            if(relationKeys.contains(key)){
-                arachniRelValue = arachniRelations.get(key);
-            }
-
-            /**
-             * Comprobamos si existen en el map final y construimos el report final
-             */
-            if (!finalResult.containsKey(arachniRelValue)) {
-                vulnerabilityList = new ArrayList<>();
-                vulnerabilityList.add(vulnerability);
-
-                if(arachniRelValue != null) {
-                    finalResult.put(arachniRelValue, vulnerabilityList);
-                } else {
-                    finalResult.put("Not Defined in Relation JSON", vulnerabilityList);
-                }
-
-                /**
-                 * Aañadimos al listado de ya analizadas
-                 */
-                // la añadimos al listado de ya analizadas
-                urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
-            } else {
-
-                /**
-                 * Si existe se comprueba que no repiten en el mismo endpoint
-                 */
-                URL url = new URL(vulnerability.getEndpoint().getUrl());
-                if(!urlUsed.contains(url)) {
-                    vulnerabilityList = finalResult.get(arachniRelValue);
-                    finalResult.put(arachniRelValue, vulnerabilityList);
-                    urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
-                }
-            }
+//            String arachniRelValue = null;
+//            if(relationKeys.contains(key)){
+//                arachniRelValue = arachniRelations.get(key);
+//            }
+//
+//            /**
+//             * Comprobamos si existen en el map final y construimos el report final
+//             */
+//            if (!finalResult.containsKey(arachniRelValue)) {
+//                vulnerabilityList = new ArrayList<>();
+//                vulnerabilityList.add(vulnerability);
+//
+//                if(arachniRelValue != null) {
+//                    finalResult.put(arachniRelValue, vulnerabilityList);
+//                } else {
+//                    finalResult.put("Not Defined in Relation JSON", vulnerabilityList);
+//                }
+//
+//                /**
+//                 * Aañadimos al listado de ya analizadas
+//                 */
+//                // la añadimos al listado de ya analizadas
+//                urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
+//            } else {
+//
+//                /**
+//                 * Si existe se comprueba que no repiten en el mismo endpoint
+//                 */
+//                URL url = new URL(vulnerability.getEndpoint().getUrl());
+//                if(!urlUsed.contains(url)) {
+//                    vulnerabilityList = finalResult.get(arachniRelValue);
+//                    finalResult.put(arachniRelValue, vulnerabilityList);
+//                    urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
+//                }
+//            }
 
         }
 

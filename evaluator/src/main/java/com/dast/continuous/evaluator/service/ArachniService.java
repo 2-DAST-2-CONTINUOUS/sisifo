@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
+import com.dast.continuous.evaluator.model.Endpoint;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
 import com.dast.continuous.evaluator.model.arachni.Issue;
@@ -61,7 +62,9 @@ public class ArachniService {
             Vulnerability vulnerability = new Vulnerability();
 
             vulnerability.setShortName(issue.getCheck().getName());
-            vulnerability.setEndpoint(issue.getRequest());
+            List<Endpoint> enpoint = new ArrayList<>();
+            enpoint.add(issue.getRequest());
+            vulnerability.setEndpoint(enpoint);
             vulnerability.setLongName(issue.getName());
             vulnerability.setSeverity(issue.getSeverity());
             vulnerability.setCwe(issue.getCwe());
@@ -93,17 +96,17 @@ public class ArachniService {
                  * Aañadimos al listado de ya analizadas
                  */
                 // la añadimos al listado de ya analizadas
-                urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
+                urlUsed.add(new URL(vulnerability.getEndpoint().get(0).getUrl()));
             } else {
 
                 /**
                  * Si existe se comprueba que no repiten en el mismo endpoint
                  */
-                URL url = new URL(vulnerability.getEndpoint().getUrl());
+                URL url = new URL(vulnerability.getEndpoint().get(0).getUrl());
                 if(!urlUsed.contains(url)) {
                     vulnerabilityList = finalResult.get(arachniRelValue);
                     finalResult.put(arachniRelValue, vulnerabilityList);
-                    urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
+                    urlUsed.add(new URL(vulnerability.getEndpoint().get(0).getUrl()));
                 }
             }
 
