@@ -46,8 +46,6 @@ public class ZapService {
             ObjectMapper objectMapper = new ObjectMapper();
             rawData = objectMapper.readValue(mapData, ZapRaw.class);
         } catch (IOException e) {
-            //TODO quitar stackTrace
-            System.out.println(e.getMessage());
             System.out.println("Error reading JSON");
         }
 
@@ -86,7 +84,7 @@ public class ZapService {
                 vulnerability.setShortName(alert.getName());                
                 vulnerability.setLongName(alert.getName());
                 //TODO: Convertir la serveridad
-                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", ""));
+                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", "").trim());
                 vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
                 
                 for(Endpoint endPointZap : alert.getInstances()){

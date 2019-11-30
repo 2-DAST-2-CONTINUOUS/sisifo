@@ -107,10 +107,10 @@ public class Application {
         getVulnerabilitiesArachni(sisifoRelation, groupVulnerabilities);
         getVulnerabilitiesZap(sisifoRelation, groupVulnerabilities);
 
-        List<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>(groupVulnerabilities.values());
+        List<Vulnerability> vulnerabilities = new ArrayList<>(groupVulnerabilities.values());
         
 		EvaluatorLogicService evaluatorLogicService = new EvaluatorLogicService();
-//		FinalReport finalReport = evaluatorLogicService.evaluateToolReports(resultArachni, resultZap, entryData);
+		evaluatorLogicService.evaluateToolReports(vulnerabilities, entryData);
     }
     
     /**
@@ -163,8 +163,7 @@ public class Application {
 	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
-	 * 
-	 * @param resource
+	 *
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
@@ -187,8 +186,7 @@ public class Application {
 	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
-	 * 
-	 * @param resource
+	 *
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
