@@ -1,30 +1,32 @@
 package com.dast.continuous.evaluator.service;
 
-import com.dast.continuous.evaluator.model.SisifoRelation;
-import com.dast.continuous.evaluator.model.Vulnerability;
-import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
-import com.dast.continuous.evaluator.model.arachni.Issue;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+
+import com.dast.continuous.evaluator.model.Vulnerability;
+import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
+import com.dast.continuous.evaluator.model.arachni.Issue;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ArachniService {
 
     public Map<String, List<Vulnerability>> getVulnerabilities(String resource, Map<String, String> arachniRelations)
             throws IOException, URISyntaxException {
 
+    	InputStream in = ClassLoader.getSystemResourceAsStream(resource);
+    	
         ///converting json to Map
-        byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(resource).toURI()));
-
+        byte[] mapData = IOUtils.toByteArray(in);
+    	
         ArachniRaw rawData = new ArachniRaw();
         try {
             ObjectMapper objectMapper = new ObjectMapper();

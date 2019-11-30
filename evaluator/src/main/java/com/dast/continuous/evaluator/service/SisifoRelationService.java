@@ -1,12 +1,13 @@
 package com.dast.continuous.evaluator.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+
+import org.apache.commons.io.IOUtils;
+
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class SisifoRelationService {
 
@@ -16,9 +17,11 @@ public class SisifoRelationService {
      * @return
      */
     public SisifoRelation getSisifoRelation(String relationResource) throws URISyntaxException, IOException {
-
+    	
+    	InputStream in = ClassLoader.getSystemResourceAsStream(relationResource);
+    	
         ///converting json to Map
-        byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(relationResource).toURI()));
+        byte[] mapData = IOUtils.toByteArray(in);
 
         SisifoRelation sisifoRelation = null;
         try {
