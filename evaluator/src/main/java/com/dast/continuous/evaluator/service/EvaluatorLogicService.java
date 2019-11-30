@@ -6,8 +6,7 @@ import com.dast.continuous.evaluator.model.FinalReport;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class EvaluatorLogicService {
@@ -41,14 +40,6 @@ public class EvaluatorLogicService {
             System.out.println("--------------------------------------");
         }
 
-        /***
-         * Construimos el DAST Report y lo guardamos en Sistema (/tmp/)
-         */
-        try {
-            this.buildDastReport(resultList);
-        } catch (Exception e) {
-            System.out.println("Error generating DAST Report");
-        }
 
 
         /**
@@ -74,30 +65,41 @@ public class EvaluatorLogicService {
             System.out.println("");
             switch (severity) {
                 case "critical":
-                    if(criticalParams >= value) {
+                    if(value >= criticalParams) {
                         isKO = Boolean.TRUE;
                     }
                     break;
                 case "high":
-                    if(highParams >= value) {
+                    if(value >= highParams) {
                         isKO = Boolean.TRUE;
                     }
                     break;
                 case "medium":
-                    if(mediumParams >= value) {
+                    if(value >= mediumParams) {
                         isKO = Boolean.TRUE;
                     }
                     break;
                 case "low":
-                    if(lowParams >= value) {
+                    if(value >= lowParams) {
                         isKO = Boolean.TRUE;
                     }
                     break;
                 default:
-                    isKO = Boolean.TRUE;
+                    isKO = Boolean.FALSE;
             }
         }
         System.out.println("**************************************");
+
+
+        /***
+         * Construimos el DAST Report y lo guardamos en Sistema (/tmp/)
+         */
+        try {
+            this.buildDastReport(resultList);
+        } catch (Exception e) {
+            System.out.println("Error generating DAST Report");
+        }
+
 
         /**
          * Evaluamos la respuesta
@@ -159,8 +161,20 @@ public class EvaluatorLogicService {
         resultList.sort(Comparator.comparing(Vulnerability::getSeverity));
         String arrayToJson = objectMapper.writeValueAsString(resultList);
 
-        FileWriter fileWriter = new FileWriter("/tmp/dastreport.json");
-        fileWriter.write(arrayToJson);
+        String filePath = "/tmp/dastreport.json";
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(new File(filePath));
+            os.write(arrayToJson.getBytes(), 0, arrayToJson.length());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         System.out.println("");
         System.out.println("*** Saving DAST Report File ***");
