@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,36 +133,48 @@ public class Application {
     	
     	EntryData entryData = new EntryData();
     	    	
-    	if (cmdLine.hasOption("vc")) {
-    		entryData.setNumVulnerabilityCritical(
-    				Integer.parseInt(cmdLine.getOptionValue("vc")));    	
+    	System.out.println("Datos de entrada");	
+    	
+    	if (cmdLine.hasOption("vc")) {    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vc"));    		
+    		entryData.setNumVulnerabilityCritical(numVuln != null ? numVuln : 1);
+    		System.out.println("Num criticas: "+entryData.getNumVulnerabilityCritical());	
     	}
     	
     	if (cmdLine.hasOption("vh")) {
-    		entryData.setNumVulnerabilityHigh(
-    				Integer.parseInt(cmdLine.getOptionValue("vh")));    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vh"));  
+    		entryData.setNumVulnerabilityHigh(numVuln != null ? numVuln : 1);
+    		System.out.println("Num altas: "+entryData.getNumVulnerabilityHigh()); 		
     	}
     	
     	if (cmdLine.hasOption("vm")) {
-    		entryData.setNumVulnerabilityMedium(
-    				Integer.parseInt(cmdLine.getOptionValue("vm")));     		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vm"));  
+    		entryData.setNumVulnerabilityMedium(numVuln != null ? numVuln : 5);
+    		System.out.println("Num medias: "+entryData.getNumVulnerabilityMedium());
     	}
     	
     	if (cmdLine.hasOption("vl")) {
-    		entryData.setNumVulnerabilityLow(
-    				Integer.parseInt(cmdLine.getOptionValue("vl")));    		
+    		Integer numVuln = Integer.parseInt(cmdLine.getOptionValue("vl"));  
+    		entryData.setNumVulnerabilityLow(numVuln != null ? numVuln : 10);
+    		System.out.println("Num bajas: "+entryData.getNumVulnerabilityLow());
     	}
     	
     	if (cmdLine.hasOption("fa")) {
-			String pathFileArachni = cmdLine.getOptionValue("fa");	
-    		System.out.println("Se va a procesar el archivo: "+pathFileArachni);			    	
-			entryData.setArachniResultData(Files.readAllBytes(Paths.get(pathFileArachni)));			
+			String pathFileArachni = cmdLine.getOptionValue("fa");    		
+    		Path path = Paths.get(pathFileArachni);
+    		if(Files.exists(path)){
+        		System.out.println("Se va a procesar el archivo: "+pathFileArachni);
+    			entryData.setArachniResultData(Files.readAllBytes(path));
+    		}
     	}
     	
     	if (cmdLine.hasOption("fz")) {
     		String pathFileZap = cmdLine.getOptionValue("fz");
-    		System.out.println("Se va a procesar el archivo: "+pathFileZap);
-    		entryData.setZapResultData(Files.readAllBytes(Paths.get(pathFileZap)));
+    		Path path = Paths.get(pathFileZap);
+    		if(Files.exists(path)){
+	    		System.out.println("Se va a procesar el archivo: "+pathFileZap);
+	    		entryData.setZapResultData(Files.readAllBytes(path));
+    		}
     	}
     	
     	return entryData;
