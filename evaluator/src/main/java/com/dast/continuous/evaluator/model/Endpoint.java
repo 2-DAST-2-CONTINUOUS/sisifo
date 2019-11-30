@@ -1,12 +1,16 @@
 package com.dast.continuous.evaluator.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Endpoint {
 
     private String method;
+    
+    @JsonAlias({"url","uri"})
     private String url;
+    
 
     public Endpoint() {
     }

@@ -23,9 +23,9 @@ public class EvaluatorLogicService {
 
                 List<String> urlList = new ArrayList<>();
                 for (Vulnerability vuln : vulnList) {
-                    System.out.println(vuln.getEndpoint().getUrl());
-                    System.out.println(vuln.getEndpoint().getMethod());
-                    urlList.add(vuln.getEndpoint().getUrl());
+                    //System.out.println(vuln.getEndpoint().getUrl());
+                    //System.out.println(vuln.getEndpoint().getMethod());
+                    //urlList.add(vuln.getEndpoint().getUrl());
                 }
                 //repofinalReportrt.setEndpoints(urlList);
                 //finalReport.setSeverity("");
