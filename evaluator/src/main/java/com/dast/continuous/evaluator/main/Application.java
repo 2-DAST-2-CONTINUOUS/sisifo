@@ -97,12 +97,14 @@ public class Application {
         SisifoRelationService sisifoRelationService = new SisifoRelationService();
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
-        Map<String, List<Vulnerability>> resultArachni = getVulnerabilitiesArachni(sisifoRelation);
-        Map<String, List<Vulnerability>> resultZap = getVulnerabilitiesZap(sisifoRelation);
+        Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
+        
+        getVulnerabilitiesArachni(sisifoRelation, groupVulnerabilities);
+        getVulnerabilitiesZap(sisifoRelation, groupVulnerabilities);
 
         List<Vulnerability> resultList = new ArrayList<>();
 		EvaluatorLogicService evaluatorLogicService = new EvaluatorLogicService();
-		evaluatorLogicService.evaluateToolReports(resultArachni.get("XSS"), entryData);
+//		FinalReport finalReport = evaluatorLogicService.evaluateToolReports(resultArachni, resultZap, entryData);
     }
     
     /**
@@ -150,30 +152,52 @@ public class Application {
     	
     }
     
-    
-    private static Map<String, List<Vulnerability>> getVulnerabilitiesArachni(SisifoRelation sisifoRelation) throws IOException, URISyntaxException {
+    /**
+	 * Añade al mapa "groupVulnerabilities" todas las vulnerabilidades agrupadas 
+	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
+	 * 
+	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
+	 * 
+	 * @param resource
+	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
+	 * 		las vulnerabilidades configuradas en el evaluador
+	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
+	 * 		venir relleno de otras herramientas.
+	 * @throws IOException
+	 */
+    private static void getVulnerabilitiesArachni(SisifoRelation sisifoRelation, 
+    		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
     	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
-    	Map<String, List<Vulnerability>> result = new HashMap<>();
     	try {
             ArachniService arachniService = new ArachniService();
-            result = arachniService.getVulnerabilities(resource, sisifoRelation.getArachni());
+            arachniService.getVulnerabilities(resource, sisifoRelation.getArachni(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }
-    	return result;
     }
     
-    
-    private static Map<String, List<Vulnerability>> getVulnerabilitiesZap(SisifoRelation sisifoRelation) throws IOException, URISyntaxException {
+    /**
+	 * Añade al mapa "groupVulnerabilities" todas las vulnerabilidades agrupadas 
+	 * por el valor del tipo de vulnerabilidad configurado en el parametro "sisifoRelation".
+	 * 
+	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
+	 * 
+	 * @param resource
+	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
+	 * 		las vulnerabilidades configuradas en el evaluador
+	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
+	 * 		venir relleno de otras herramientas.
+	 * @throws IOException
+	 */
+    private static void getVulnerabilitiesZap(SisifoRelation sisifoRelation,
+    		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
     	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.zap.filepath");
-    	Map<String, List<Vulnerability>> result = new HashMap<>();
     	try {
             ZapService zapService = new ZapService();
-            result = zapService.getVulnerabilities(resource, sisifoRelation.getZap());
+            zapService.getVulnerabilities(resource, sisifoRelation.getZap(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }
-    	return result;
     }
 
     /**
