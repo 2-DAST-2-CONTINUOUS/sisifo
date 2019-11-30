@@ -108,9 +108,12 @@ public class Application {
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
         Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
-        
-        getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
-        getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
+        if (entryData.getArachniResultData() != null) {
+        	getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
+        }
+        if (entryData.getZapResultData() != null) {
+        	getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
+        }
 
         List<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>(groupVulnerabilities.values());
         
@@ -150,12 +153,14 @@ public class Application {
     	}
     	
     	if (cmdLine.hasOption("fa")) {
-			String pathFileArachni = cmdLine.getOptionValue("fa");				    	
+			String pathFileArachni = cmdLine.getOptionValue("fa");	
+    		System.out.println("Se va a procesar el archivo: "+pathFileArachni);			    	
 			entryData.setArachniResultData(Files.readAllBytes(Paths.get(pathFileArachni)));			
     	}
     	
     	if (cmdLine.hasOption("fz")) {
     		String pathFileZap = cmdLine.getOptionValue("fz");
+    		System.out.println("Se va a procesar el archivo: "+pathFileZap);
     		entryData.setZapResultData(Files.readAllBytes(Paths.get(pathFileZap)));
     	}
     	
