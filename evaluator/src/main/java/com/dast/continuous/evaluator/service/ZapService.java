@@ -82,7 +82,7 @@ public class ZapService {
                 vulnerability.setShortName(alert.getName());                
                 vulnerability.setLongName(alert.getName());
                 //TODO: Convertir la serveridad
-                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", ""));
+                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", "").trim());
                 vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
                 
                 for(Endpoint endPointZap : alert.getInstances()){

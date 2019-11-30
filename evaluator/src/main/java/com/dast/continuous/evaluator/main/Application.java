@@ -118,7 +118,7 @@ public class Application {
         List<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>(groupVulnerabilities.values());
         
 		EvaluatorLogicService evaluatorLogicService = new EvaluatorLogicService();
-//		FinalReport finalReport = evaluatorLogicService.evaluateToolReports(resultArachni, resultZap, entryData);
+		evaluatorLogicService.evaluateToolReports(vulnerabilities, entryData);
     }
     
     /**
