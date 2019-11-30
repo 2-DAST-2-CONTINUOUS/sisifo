@@ -17,10 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Inicializador de spring boot
@@ -103,8 +100,9 @@ public class Application {
         Map<String, List<Vulnerability>> resultArachni = getVulnerabilitiesArachni(sisifoRelation);
         Map<String, List<Vulnerability>> resultZap = getVulnerabilitiesZap(sisifoRelation);
 
+        List<Vulnerability> resultList = new ArrayList<>();
 		EvaluatorLogicService evaluatorLogicService = new EvaluatorLogicService();
-		FinalReport finalReport = evaluatorLogicService.evaluateToolReports(resultArachni, resultZap, entryData);
+		evaluatorLogicService.evaluateToolReports(resultArachni.get("XSS"), entryData);
     }
     
     /**
