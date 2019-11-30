@@ -1,10 +1,7 @@
 package com.dast.continuous.evaluator.main;
 
-import com.dast.continuous.evaluator.model.SisifoRelation;
-import com.dast.continuous.evaluator.model.Vulnerability;
-import com.dast.continuous.evaluator.service.ArachniService;
-import com.dast.continuous.evaluator.service.SisifoRelationService;
-import com.dast.continuous.evaluator.service.ZapService;
+import com.dast.continuous.evaluator.model.*;
+import com.dast.continuous.evaluator.service.*;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,7 +27,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 
-import com.dast.continuous.evaluator.model.EntryData;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
@@ -86,13 +82,14 @@ public class Application {
 			System.out.println("V 0.0.1");
 			return;
 		}
-		
+
+		EntryData entryData = null;
 		try {
 
 			parser = new DefaultParser();
 			cmdLine = parser.parse(options, args);	
 			
-			EntryData entryData = getArgsSisifo(cmdLine);
+			entryData = getArgsSisifo(cmdLine);
 			
 			if(checkNull(entryData)){
 				new HelpFormatter().printHelp("sisifo-evaluador", header, options, footer,
@@ -105,36 +102,20 @@ public class Application {
 			new HelpFormatter().printHelp("sisifo-evaluador", header, options, footer,
 					true);
 			return;
-		} 		
-		
-        String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
-        String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
+		}
 
+		/**
+		 * Cargamos el JSON de Vulnerabilidades configuradas por Sisifo para el Match
+		 */
+		String sisifoRelationStr = ApplicationProperties.INSTANCE.getAppName("sisifo.vulnerability.relation");
         SisifoRelationService sisifoRelationService = new SisifoRelationService();
         SisifoRelation sisifoRelation = sisifoRelationService.getSisifoRelation(sisifoRelationStr);
 
         Map<String, List<Vulnerability>> resultArachni = getVulnerabilitiesArachni(sisifoRelation);
         Map<String, List<Vulnerability>> resultZap = getVulnerabilitiesZap(sisifoRelation);
-        
 
-        if (resultArachni != null) {
-        	resultArachni.forEach((type, vulnList) -> {
-
-                //FinalReport report = new FinalReport();
-                //report.setName(k);
-
-                System.out.println("Tipo : " + type);
-
-                List<String> urlList = new ArrayList<>();
-                for (Vulnerability vuln : vulnList) {
-                    System.out.println(vuln.getEndpoint().getUrl());
-                    System.out.println(vuln.getEndpoint().getMethod());
-                    urlList.add(vuln.getEndpoint().getUrl());
-                }
-                //report.setOrigin(urlList);
-                //report.setSeverity("");
-            });
-        }    	
+		EvaluatorLogicService evaluatorLogicService = new EvaluatorLogicService();
+		FinalReport finalReport = evaluatorLogicService.evaluateToolReports(resultArachni, resultZap, entryData);
     }
     
     /**

@@ -13,7 +13,7 @@ public enum ApplicationProperties {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("application.properties"));
         } catch (IOException e) {
-           System.out.println(e.getMessage());
+           System.out.println("Error leyendo Properties");
         }
     }
 
