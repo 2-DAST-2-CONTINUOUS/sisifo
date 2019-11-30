@@ -1,37 +1,26 @@
 package com.dast.continuous.evaluator.main;
 
-import com.dast.continuous.evaluator.model.*;
-import com.dast.continuous.evaluator.service.*;
+import com.dast.continuous.evaluator.model.EntryData;
+import com.dast.continuous.evaluator.model.FinalReport;
+import com.dast.continuous.evaluator.model.SisifoRelation;
+import com.dast.continuous.evaluator.model.Vulnerability;
+import com.dast.continuous.evaluator.service.ArachniService;
+import com.dast.continuous.evaluator.service.EvaluatorLogicService;
+import com.dast.continuous.evaluator.service.SisifoRelationService;
+import com.dast.continuous.evaluator.service.ZapService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.io.IOUtils;
-
-import com.dast.continuous.evaluator.model.SisifoRelation;
-import com.dast.continuous.evaluator.model.Vulnerability;
-import com.dast.continuous.evaluator.service.ArachniService;
-import com.dast.continuous.evaluator.service.SisifoRelationService;
-import com.dast.continuous.evaluator.utils.ApplicationProperties;
 
 /**
  * Inicializador de spring boot

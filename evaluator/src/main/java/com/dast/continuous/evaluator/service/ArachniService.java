@@ -1,27 +1,25 @@
 package com.dast.continuous.evaluator.service;
 
+import com.dast.continuous.evaluator.model.Endpoint;
+import com.dast.continuous.evaluator.model.Vulnerability;
+import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
+import com.dast.continuous.evaluator.model.arachni.Issue;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-
-import com.dast.continuous.evaluator.model.Endpoint;
-import com.dast.continuous.evaluator.model.Vulnerability;
-import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
-import com.dast.continuous.evaluator.model.arachni.Issue;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class ArachniService {
 
     public Map<String, List<Vulnerability>> getVulnerabilities(String resource, Map<String, String> arachniRelations)
-            throws IOException, URISyntaxException {
+            throws IOException {
 
     	InputStream in = ClassLoader.getSystemResourceAsStream(resource);
     	
@@ -33,8 +31,6 @@ public class ArachniService {
             ObjectMapper objectMapper = new ObjectMapper();
             rawData = objectMapper.readValue(mapData, ArachniRaw.class);
         } catch (IOException e) {
-            //TODO quitar stackTrace
-            System.out.println(e.getMessage());
             System.out.println("Error reading JSON");
         }
 
