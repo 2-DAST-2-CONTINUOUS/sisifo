@@ -5,4 +5,5 @@
   variables:
     EVALUATOR_CONFIG: ""
   script:
-    - cat gl-dast-report.json
+    #- cat gl-dast-report.json
+    - java -jar /tmp/calculator-0.0.1.jar

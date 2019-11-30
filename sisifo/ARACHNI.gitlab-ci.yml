@@ -1,6 +1,6 @@
 .analyze_arachni:
   image: 
-    name: registry.gitlab.com/2-dast-2-continuos/dasttool-beta:2.0.0
+    name: registry.gitlab.com/2-dast-2-continuos/arachni-docker-repository:2.0.0
     entrypoint: [""]
   variables:
     AR_URL: ""
@@ -31,3 +31,5 @@
     name: arachniReport
     paths:
       - arachni_result.json
+
+
