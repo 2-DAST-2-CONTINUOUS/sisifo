@@ -51,7 +51,9 @@ public class ArachniService {
 
         List<Issue> issues = rawData.getIssues();
 
-        reduceList(issues, arachniRelations, groupVulnerabilities);
+        reduceList(issues, arachniRelations, groupVulnerabilities);        
+
+        System.out.println("Fin obteniendo las vulnerabilidades de Arachni");
     }
 
     /**

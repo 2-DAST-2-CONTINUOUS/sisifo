@@ -2,27 +2,43 @@ package com.dast.continuous.evaluator.service;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.dast.continuous.evaluator.model.Endpoint;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.model.zap.Alert;
 import com.dast.continuous.evaluator.model.zap.Site;
 import com.dast.continuous.evaluator.model.zap.ZapRaw;
+import com.dast.continuous.evaluator.utils.Constantes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ZapService {
 
-    public Map<String, List<Vulnerability>> getVulnerabilities(String resource, Map<String, String> zapRelations, 
+	/**
+	 * Añade al mapa "groupVulnerabilities" todas las vulnerabilidades agrupadas 
+	 * por el valor del tipo de vulnerabilidad configurado en el parametro "zapRelations".
+	 * 
+	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
+	 * 
+	 * @param resource
+	 * @param zapRelations mapa con la relación entre vulnerabilidades de zap y 
+	 * 		las vulnerabilidades configuradas en el evaluador
+	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
+	 * 		venir relleno de otras herramientas.
+	 * @throws IOException
+	 */
+    public void getVulnerabilities(String resource, Map<String, String> zapRelations, 
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
 
-        ///converting json to Map
+        System.out.println("Obteniendo las vulnerabilidades de Zap");
         byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(resource).toURI()));
 
         ZapRaw rawData = new ZapRaw();
@@ -35,81 +51,106 @@ public class ZapService {
             System.out.println("Error reading JSON");
         }
 
-        List<Site> sites = rawData.getSite();
-        
-       
-        return reduceList(sites, zapRelations);
+        List<Site> sites = rawData.getSite();        
+        for (Site site : sites){
+	        reduceList(site, zapRelations, groupVulnerabilities);
+	    }
+
+        System.out.println("Fin obteniendo las vulnerabilidades de Zap");
     }
 
-    private Map<String, List<Vulnerability>> reduceList(List<Site> sites, Map<String, String> zapRelations) throws MalformedURLException {
-
-        Map<String,List<Vulnerability>> finalResult = new LinkedHashMap<>();
-        List<Vulnerability> vulnerabilityList = null;
-
-        // URL ya analizadas
-        List<URL> urlUsed = new ArrayList<>();
-        List<String> relationKeys = new ArrayList<>(zapRelations.keySet());
-
+    /**
+     * Reduce la lista de vulnerabilidades de zap.
+     * 
+     * @param site
+     * @param zapRelations
+     * @param groupVulnerabilities
+     * @throws MalformedURLException
+     */
+    private void reduceList(Site site, Map<String, String> zapRelations, 
+    		Map<String, Vulnerability> groupVulnerabilities) throws MalformedURLException {
+        
         /**
          * De las vulnerabilidades encontradas las mapeamos a objetos
          * y las agrupamos por tipo de vulnerabilidad y url
          */
-        for(Site site : sites) {
-        	for (Alert alert: site.getAlerts()) {
+    	for (Alert alert: site.getAlerts()) {
+    		
+    		String nameVuln = zapRelations.get(alert.getPluginid());
+    		
+    		if(StringUtils.isBlank(nameVuln)){
+        		
         		Vulnerability vulnerability = new Vulnerability();
-        		vulnerability.setShortName(alert.getName());
-        		vulnerability.setLongName(alert.getName());
-        		vulnerability.setSeverity(alert.getRiskdesc());
-        		vulnerability.setEndpoint(alert.getInstances());
-        		vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
-        	}
-
-
-            //String key = vulnerability.getShortName();
-
-            /**
-             * Comparamos con las relaciones de JSON
-             */
-//            String arachniRelValue = null;
-//            if(relationKeys.contains(key)){
-//                arachniRelValue = arachniRelations.get(key);
-//            }
-//
-//            /**
-//             * Comprobamos si existen en el map final y construimos el report final
-//             */
-//            if (!finalResult.containsKey(arachniRelValue)) {
-//                vulnerabilityList = new ArrayList<>();
-//                vulnerabilityList.add(vulnerability);
-//
-//                if(arachniRelValue != null) {
-//                    finalResult.put(arachniRelValue, vulnerabilityList);
-//                } else {
-//                    finalResult.put("Not Defined in Relation JSON", vulnerabilityList);
-//                }
-//
-//                /**
-//                 * Aañadimos al listado de ya analizadas
-//                 */
-//                // la añadimos al listado de ya analizadas
-//                urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
-//            } else {
-//
-//                /**
-//                 * Si existe se comprueba que no repiten en el mismo endpoint
-//                 */
-//                URL url = new URL(vulnerability.getEndpoint().getUrl());
-//                if(!urlUsed.contains(url)) {
-//                    vulnerabilityList = finalResult.get(arachniRelValue);
-//                    finalResult.put(arachniRelValue, vulnerabilityList);
-//                    urlUsed.add(new URL(vulnerability.getEndpoint().getUrl()));
-//                }
-//            }
-
-        }
-
-        return finalResult;
+        		
+        		vulnerability.setName(Constantes.COMMON_MESSAGE_NOT_FOUND + alert.getName());
+                vulnerability.setShortName(alert.getName());                
+                vulnerability.setLongName(alert.getName());
+                //TODO: Convertir la serveridad
+                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", ""));
+                vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
+                
+                for(Endpoint endPointZap : alert.getInstances()){
+                	if(!vulnerability.getEndpoint().stream().anyMatch(obj -> obj.getUrl().equals(getUrlWithoutParameters(endPointZap.getUrl())) 
+            				&& obj.getMethod().equals(endPointZap.getMethod()))){                		
+            			vulnerability.getEndpoint().add(new Endpoint(endPointZap.getMethod(), getUrlWithoutParameters(endPointZap.getUrl())));
+            		}
+                }
+                
+                groupVulnerabilities.put(vulnerability.getName(), vulnerability);
+        		
+        	} else if(groupVulnerabilities.containsKey(nameVuln)){
+        		
+        		Vulnerability vulnerability = groupVulnerabilities.get(nameVuln);
+        		
+        		for(Endpoint endPointZap : alert.getInstances()){
+        			if(!vulnerability.getEndpoint().stream().anyMatch(obj -> obj.getUrl().equals(getUrlWithoutParameters(endPointZap.getUrl())) 
+            				&& obj.getMethod().equals(endPointZap.getMethod()))){                		
+            			vulnerability.getEndpoint().add(new Endpoint(endPointZap.getMethod(), getUrlWithoutParameters(endPointZap.getUrl())));
+            		}
+                }
+        		
+        	} else {
+        		
+        		Vulnerability vulnerability = new Vulnerability();
+        		
+        		vulnerability.setShortName(alert.getName());                
+                vulnerability.setLongName(alert.getName());
+                //TODO: Convertir la serveridad
+                vulnerability.setSeverity(alert.getRiskdesc().replaceAll("\\(.*\\)", ""));
+                vulnerability.setCwe(Integer.parseInt(alert.getCweid()));
+                
+                for(Endpoint endPointZap : alert.getInstances()){
+                	if(!vulnerability.getEndpoint().stream().anyMatch(obj -> obj.getUrl().equals(getUrlWithoutParameters(endPointZap.getUrl())) 
+            				&& obj.getMethod().equals(endPointZap.getMethod()))){                		
+            			vulnerability.getEndpoint().add(new Endpoint(endPointZap.getMethod(), getUrlWithoutParameters(endPointZap.getUrl())));
+            		}
+                }
+                
+                groupVulnerabilities.put(vulnerability.getName(), vulnerability);
+        		
+        	} 
+    		
+    	}
     }
 
-
+    /**
+     * Elimina los parametros de la URL
+     * 
+     * @param url
+     * @return
+     * @throws URISyntaxException
+     */
+    private String getUrlWithoutParameters(String url) {
+    	try {
+        URI uri = new URI(url);
+        return new URI(uri.getScheme(),
+                       uri.getAuthority(),
+                       uri.getPath(),
+                       null, // Ignore the query part of the input url
+                       uri.getFragment()).toString();
+    	} catch(URISyntaxException ex){
+    		throw new RuntimeException(ex.getMessage(), ex);
+    	}
+    }
+    
 }
