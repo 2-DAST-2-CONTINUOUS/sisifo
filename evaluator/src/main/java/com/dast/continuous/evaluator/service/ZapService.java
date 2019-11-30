@@ -1,16 +1,5 @@
 package com.dast.continuous.evaluator.service;
 
-import com.dast.continuous.evaluator.model.Endpoint;
-import com.dast.continuous.evaluator.model.SisifoRelation;
-import com.dast.continuous.evaluator.model.Vulnerability;
-import com.dast.continuous.evaluator.model.arachni.ArachniRaw;
-import com.dast.continuous.evaluator.model.arachni.Issue;
-import com.dast.continuous.evaluator.model.zap.Alert;
-import com.dast.continuous.evaluator.model.zap.Site;
-import com.dast.continuous.evaluator.model.zap.ZapInstance;
-import com.dast.continuous.evaluator.model.zap.ZapRaw;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -18,15 +7,20 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dast.continuous.evaluator.model.Vulnerability;
+import com.dast.continuous.evaluator.model.zap.Alert;
+import com.dast.continuous.evaluator.model.zap.Site;
+import com.dast.continuous.evaluator.model.zap.ZapRaw;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ZapService {
 
-    public Map<String, List<Vulnerability>> getVulnerabilities(String resource, Map<String, String> zapRelations)
-            throws IOException, URISyntaxException {
+    public Map<String, List<Vulnerability>> getVulnerabilities(String resource, Map<String, String> zapRelations, 
+    		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
 
         ///converting json to Map
         byte[] mapData = Files.readAllBytes(Paths.get(ClassLoader.getSystemResource(resource).toURI()));
@@ -47,7 +41,7 @@ public class ZapService {
         return reduceList(sites, zapRelations);
     }
 
-    private static Map<String, List<Vulnerability>> reduceList(List<Site> sites, Map<String, String> zapRelations) throws MalformedURLException {
+    private Map<String, List<Vulnerability>> reduceList(List<Site> sites, Map<String, String> zapRelations) throws MalformedURLException {
 
         Map<String,List<Vulnerability>> finalResult = new LinkedHashMap<>();
         List<Vulnerability> vulnerabilityList = null;
