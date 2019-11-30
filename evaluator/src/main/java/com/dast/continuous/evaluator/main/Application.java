@@ -1,7 +1,26 @@
 package com.dast.continuous.evaluator.main;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 import com.dast.continuous.evaluator.model.EntryData;
-import com.dast.continuous.evaluator.model.FinalReport;
 import com.dast.continuous.evaluator.model.SisifoRelation;
 import com.dast.continuous.evaluator.model.Vulnerability;
 import com.dast.continuous.evaluator.service.ArachniService;
@@ -9,20 +28,6 @@ import com.dast.continuous.evaluator.service.EvaluatorLogicService;
 import com.dast.continuous.evaluator.service.SisifoRelationService;
 import com.dast.continuous.evaluator.service.ZapService;
 import com.dast.continuous.evaluator.utils.ApplicationProperties;
-import org.apache.commons.cli.*;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Inicializador de spring boot
@@ -104,8 +109,8 @@ public class Application {
 
         Map<String, Vulnerability> groupVulnerabilities = new HashMap<>();
         
-        getVulnerabilitiesArachni(sisifoRelation, groupVulnerabilities);
-        getVulnerabilitiesZap(sisifoRelation, groupVulnerabilities);
+        getVulnerabilitiesArachni(entryData, sisifoRelation, groupVulnerabilities);
+        getVulnerabilitiesZap(entryData, sisifoRelation, groupVulnerabilities);
 
         List<Vulnerability> vulnerabilities = new ArrayList<Vulnerability>(groupVulnerabilities.values());
         
@@ -164,19 +169,19 @@ public class Application {
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
 	 * 
-	 * @param resource
+	 * @param entryData datos de entrada de la aplicacion
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    private static void getVulnerabilitiesArachni(SisifoRelation sisifoRelation, 
+    private static void getVulnerabilitiesArachni(EntryData entryData, SisifoRelation sisifoRelation, 
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
-    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.arachni.filepath");
+    	
     	try {
             ArachniService arachniService = new ArachniService();
-            arachniService.getVulnerabilities(resource, sisifoRelation.getArachni(), groupVulnerabilities);
+            arachniService.getVulnerabilities(entryData.getArachniResultData(), sisifoRelation.getArachni(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }
@@ -188,19 +193,19 @@ public class Application {
 	 * 
 	 * También se eliminan las url por vulnerabilidad, que coincidan en url y metodo.
 	 * 
-	 * @param resource
+	 * @param entryData datos de entrada de la aplicacion
 	 * @param sisifoRelation mapa con la relación entre vulnerabilidades de las herramientas DAST y 
 	 * 		las vulnerabilidades configuradas en el evaluador
 	 * @param groupVulnerabilities mapa con las vulnerabilidades agrupadas. Este puede 
 	 * 		venir relleno de otras herramientas.
 	 * @throws IOException
 	 */
-    private static void getVulnerabilitiesZap(SisifoRelation sisifoRelation,
+    private static void getVulnerabilitiesZap(EntryData entryData, SisifoRelation sisifoRelation,
     		Map<String, Vulnerability> groupVulnerabilities) throws IOException, URISyntaxException {
-    	String resource = ApplicationProperties.INSTANCE.getAppName("dasttool.zap.filepath");
+    	
     	try {
             ZapService zapService = new ZapService();
-            zapService.getVulnerabilities(resource, sisifoRelation.getZap(), groupVulnerabilities);
+            zapService.getVulnerabilities(entryData.getZapResultData(), sisifoRelation.getZap(), groupVulnerabilities);
         } catch (MalformedURLException e) {
             System.out.println("Fallo en la URL");
         }
