@@ -1,38 +1,44 @@
-# Plantillas GitLab CI/CD para análisis dinámico de seguridad
+## Sisifo CI/CD template for Dynamic Security Analysis
 
-Este repositorio contiene las plantillas de las diferentes herramientas de análisis dinámico, las cuales se podrán importar en el archivo **.gitlab-ci.yml** del repositorio de GitLab para obtener la funcionalidad de análisis de seguridad en el pipeline.
+This template is a docker container registered in 2 DAST 2 Continuous GitLab Repository.
 
-Antes de añadir los diferentes *stages* de análisis dinámico la aplicación a analizar deberá haber sido desplegada, bien en un lugar accesible o en un docker levantado como servicio dentro del flujo de GitLab
+- **Sisifo** - [GitLab Link](https://gitlab.com/2-dast-2-continuos/sisifo)
 
-## ARACHNI.gitlab-ci.yml
 
-Para incluir el análisis con arachni se deberá importar la plantilla de la siguiente manera
+The sisifo directory contains the templates of the different dynamic analysis tools, which can be imported into the file **.gitlab-ci.yml** from the GitLab repository to obtain the security analysis functionality in the pipeline.
 
+Before adding the different dynamic analysis *stages* the application to be analyzed must have been deployed, either in an accessible place or in a docker raised as a service within the GitLab flow.
+
+### ARACHNI.gitlab-ci.yml
+
+To include the analysis with arachni the template must be imported as follows
+```
     include:
-      - project: 2-dast-2-continuos/templates
+      - project: 2-dast-2-continuous/templates
       file: ARACHNI.gitlab-ci.yml
       ref: master
+```     
 
-Y crear un *stage* del que extenderemos
-
+And create a *stage* that we'll extend
+```
     arachni:
       extends:
       - .analyze_arachni
     stage:
       arachni
-
-Para lanzar un escaneo con las opciones por defecto tan solo es necesario declarar una variable **AR_URL** que será la url por la que empezará el análisis 
-
+```
+To launch a scan with the default options you just need to declare a variable **AR_URL** which will be the url that the analysis will start with. 
+```
     variables:
-      AR_URL: "<URL_APPLICACION>"
-
-El resultado final sería
-
+      AR_URL: "<URL_APPLICATION>"
+```
+The final result would be
+```
     include:
-      - project: 2-dast-2-continuos/templates
+      - project: 2-dast-2-continuous/templates
         file: ARACHNI.gitlab-ci.yml
         ref: master
-    stages:
+    stages
       - arachni
     arachni:
       extends:
@@ -40,20 +46,20 @@ El resultado final sería
       stage:
         arachni 
       variables:    
-        AR_URL: "<URL_APPLICACION>"
+        AR_URL: "<URL_APPLICATION>"
+```
+You can indicate to the tool that it is necessary to login to the application to be analyzed by declaring the following variables:
 
-Se puede indicar a la herramienta que es necesario realizar login en la aplicación a analizar declarando las siguientes variables:
+* AR_LOGIN_URL -> Url in which the login is made
+* AR_LOGIN_PARAMS -> Login parameters in the following format "param1=value1&param2=value2".
+* AR_CHECK_LOGIN_SUCCESS -> Text to search if the login has been successful
+* AR_LOGOUT_PATTERN -> Logout endpoint pattern to exclude it from the scope of analysis
 
-* AR_LOGIN_URL -> Url en la que se realiza el login
-* AR_LOGIN_PARAMS -> Parámetros del login en el siguiente formato "param1=value1&param2=value2"
-* AR_CHECK_LOGIN_SUCCESS -> Texto a buscar si el login ha sido satisfactorio
-* AR_LOGOUT_PATTERN -> Patron del endpoint de logout para excluirlo del alcance del análisis
+#### Personalization of the analysis 
 
-#### Personalización del análisis 
+Declaring the variable **AR_CHECKS** it is possible to define the type of checks to be carried out. The format of this variable coincides with that of parameter *--checks* of the Arachni tool.
 
-Declarando la variable **AR_CHECKS** se puede definir que tipo de comprobaciones se van a realizar. El formato de esta variable coincide con el del parámetro *--checks* de la herramienta Arachni.
-
-La lista de las diferentes comprobaciones es:
+The list of the different checks is:
 
 * insecure_cross_domain_policy_headers
 * xst
@@ -121,48 +127,48 @@ La lista de las diferentes comprobaciones es:
 * xxe
 * os_cmd_injection
 
-Para más información se puede consultar la documentación oficial: https://github.com/Arachni/arachni/wiki/Command-line-user-interface#checks-checks_example
+For further information, please consult the official documentation: https://github.com/Arachni/arachni/wiki/Command-line-user-interface#checks-checks_example
 
-## ZAP.gitlab-ci.yml
+### ZAP.gitlab-ci.yml
 
-Para incluir el análisis con arachni se deberá importar la plantilla de la siguiente manera
-
+To include the analysis with arachni the template must be imported as follows
+```
     include:
-      - project: 2-dast-2-continuos/templates
+      - project: 2-dast-2-continuous/templates
       file: ZAP.gitlab-ci.yml
       ref: master
-
-Y crear un *stage* del que extenderemos
-
-    zap:
+```
+And create a *stage* that we'll extend
+```
+    zap
       extends:
         - .analyze_zap
       stage:
         zap
-
-Para lanzar un escaneo con las opciones por defecto tan solo es necesario declarar una variable **ZAP_WEBSITE** que será la url por la que empezará el análisis 
-
+```
+To launch a scan with the default options it is only necessary to declare a variable **ZAP_WEBSITE** that will be the url where the analysis will start. 
+```
     variables:
-      ZAP_WEBSITE: "<URL_APPLICACION>"
-
-El resultado final sería
-
+      ZAP_WEBSITE: "<URL_APPLICATION>"
+```
+The final result would be
+```
     include:
-      - project: 2-dast-2-continuos/templates
+      - project: 2-dast-2-continuous/templates
       file: ZAP.gitlab-ci.yml
       ref: master
-    zap:
+    zap
       extends:
       - .analyze_zap
       variables:
-        ZAP_WEBSITE: <URL_APPLICACION>
+        ZAP_WEBSITE: <URL_APPLICATION>
       stage: zap
+```
+You can indicate to the tool that it is necessary to login to the application to be analyzed by declaring the following variables:
 
-Se puede indicar a la herramienta que es necesario realizar login en la aplicación a analizar declarando las siguientes variables:
-
-* ZAP_AUTH_URL -> Url en la que se realiza el login
-* ZAP_USERNAME -> Nombre de usuario
-* ZAP_PASSWORD -> Contraseña
-* ZAP_USERNAME_FIELD -> Valor del parámetro *name* del *input* del nombre de usuario
-* ZAP_PASSWORD_FIELD -> Valor del parámetro *name* del *input* de la contraseña
-* ZAP_AUTH_EXCLUDE_URLS -> Patron del endpoint de logout para excluirlo del alcance del análisis
+* ZAP_AUTH_URL -> Url in which the login is made
+* ZAP_USERNAME -> User name
+* ZAP_PASSWORD -> Password
+* ZAP_USERNAME_FIELD -> Value of parameter *name* of *input* of user name
+* ZAP_PASSWORD_FIELD -> Parameter value *name* of *input* of password
+* ZAP_AUTH_EXCLUDE_URLS -> Logout endpoint pattern to exclude it from the scope of analysis
