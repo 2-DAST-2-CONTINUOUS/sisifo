@@ -75,7 +75,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
 		<jackson-databind.version>2.10.1</jackson-databind.version>
-		<commons-io.version>2.6</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<commons-cli.version>1.4</commons-cli.version>
 	</properties>
 
